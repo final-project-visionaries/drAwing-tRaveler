@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm run build --prefix server"
+    "start": "npm run start --prefix server",
+    "build": "npm run migrate --prefix server && npm run seed --prefix server"
   },
   "keywords": [],
   "author": "",
