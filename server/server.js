@@ -15,7 +15,7 @@ const setupServer = () => {
   app.use(cors());
 
   app.get("/", (req, res) => {
-    res.send("Herokuで更新できてますか？");
+    res.send("Herokuで更新できてます!!!");
   });
 
   //"/api/v1"に飛んできたらapiRoutesファイルに飛んでいく
