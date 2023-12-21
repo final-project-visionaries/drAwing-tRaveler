@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE0FB75E2B346D9A00F603ED /* CameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE0FB75D2B346D9A00F603ED /* CameraView.swift */; };
 		CE7A661B2B341B330011328A /* pic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE7A661A2B341B330011328A /* pic1.jpg */; };
 		CE7A661D2B341B3A0011328A /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7A661C2B341B3A0011328A /* sky.png */; };
 		CE8D54F92B32DCE100806426 /* clientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D54F82B32DCE100806426 /* clientApp.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE0FB75D2B346D9A00F603ED /* CameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraView.swift; sourceTree = "<group>"; };
 		CE7A661A2B341B330011328A /* pic1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pic1.jpg; sourceTree = "<group>"; };
 		CE7A661C2B341B3A0011328A /* sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky.png; sourceTree = "<group>"; };
 		CE8D54F52B32DCE100806426 /* client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = client.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -155,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				CE8D551D2B32EA9200806426 /* TakePhotoView.swift */,
+				CE0FB75D2B346D9A00F603ED /* CameraView.swift */,
 			);
 			path = TakePhoto;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				CE8D55202B32EAE000806426 /* DrawingView.swift in Sources */,
 				CEC7D8722B33308600C4B152 /* Useage.swift in Sources */,
 				CE8D54F92B32DCE100806426 /* clientApp.swift in Sources */,
+				CE0FB75E2B346D9A00F603ED /* CameraView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,20 +424,21 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = 5X7NMS6ZZH;
+				DEVELOPMENT_TEAM = XVZ2LPCAL2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリではカメラを起動します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Jin.client;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kazuyoshiogata;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -449,20 +454,21 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = 5X7NMS6ZZH;
+				DEVELOPMENT_TEAM = XVZ2LPCAL2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリではカメラを起動します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.Jin.client;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kazuyoshiogata;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -8,8 +8,23 @@
 import SwiftUI
 
 struct TakePhotoView: View {
+    @State private var isCameraPresented = true
+
     var body: some View {
-        Text("手書きの絵の写真を撮る")
+        VStack {
+            Button(action: {
+               isCameraPresented = true
+            }) {
+                Text("")
+            }
+//            .sheet(isPresented: $isCameraPresented) {
+//                CameraView()
+//            }
+            .fullScreenCover(isPresented: $isCameraPresented, content: {
+            CameraView()
+            })
+           
+        }
     }
 }
 
