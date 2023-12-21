@@ -2,7 +2,7 @@
 import SwiftUI
 
 struct SelectImageView: View {
-    @EnvironmentObject var ImageData : ImageData
+    @EnvironmentObject var imageData : ImageData
     @State private var activie = false
 //    @State selectID = []
 //    arr = ["pic1", "pic2", "pic3"]
@@ -17,7 +17,7 @@ struct SelectImageView: View {
                         Image(systemName: "house.fill")
                             .imageScale(.large)
 //                        Text("ARを表示")
-                        Text("test : \(ImageData.AllImages)")
+                        Text("test : \(imageData.AllImages)")
                     }
 //                    ForEach(arr)...
                     ForEach(0 ..< 10, id: \.self){ index in
@@ -37,5 +37,5 @@ struct SelectImageView: View {
 }
 #Preview(traits: PreviewTrait.landscapeLeft) {
     //#Preview {
-    SelectImageView()
+    SelectImageView().environmentObject(ImageData())
 }
