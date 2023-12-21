@@ -11,12 +11,10 @@ struct TopView: View {
     var body: some View {
         
         VStack {
-            
             NavigationView {
-                
                 List {
                     Text("TOP")//ここで仮置き（TOP画面だとわかるように。）
-                    NavigationLink(destination: HomeView()){
+                    NavigationLink(destination: HomeView().environmentObject(ImageData())){
                             Image(systemName: "house.fill")
                                 .imageScale(.large)
                             Text("ホーム")

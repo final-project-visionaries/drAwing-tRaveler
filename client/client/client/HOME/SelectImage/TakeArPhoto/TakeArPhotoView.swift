@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct TakeArPhotoView: View {
+    @EnvironmentObject var ImageData : ImageData
     var body: some View {
         Text("AR表示をして写真を撮る")
+        Text("test : \(ImageData.AllImages)")
     }
 }
 

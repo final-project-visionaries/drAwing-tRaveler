@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var ImageData : ImageData
+    
     var body: some View {
         Text("ホーム画面")
+        Text(ImageData.dummyData[0]["image_name"] ?? "Hello")
         VStack {
                 List {
                     NavigationLink(destination: DrawingView()){
@@ -33,7 +36,7 @@ struct HomeView: View {
                             Text("絵の写真を撮る")
 
                         }
-                    NavigationLink(destination: SelectImageView()){
+                    NavigationLink(destination: SelectImageView().environmentObject(client.ImageData())){
                             Image(systemName: "house.fill")
                                 .imageScale(.large)
                             Text("絵を選ぶ")

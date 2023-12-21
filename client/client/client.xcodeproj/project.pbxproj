@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CE7A661B2B341B330011328A /* pic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE7A661A2B341B330011328A /* pic1.jpg */; };
 		CE7A661D2B341B3A0011328A /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7A661C2B341B3A0011328A /* sky.png */; };
+		CE7A661F2B3428C40011328A /* ImageData.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE7A661E2B3428C40011328A /* ImageData.swift */; };
 		CE8D54F92B32DCE100806426 /* clientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D54F82B32DCE100806426 /* clientApp.swift */; };
 		CE8D54FB2B32DCE100806426 /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D54FA2B32DCE100806426 /* TopView.swift */; };
 		CE8D54FD2B32DCE300806426 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE8D54FC2B32DCE300806426 /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		CE7A661A2B341B330011328A /* pic1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pic1.jpg; sourceTree = "<group>"; };
 		CE7A661C2B341B3A0011328A /* sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky.png; sourceTree = "<group>"; };
+		CE7A661E2B3428C40011328A /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ImageData.swift; path = "../../../../../drAwing-tRaveler_async_testing/client/client/client/TOP/ImageData.swift"; sourceTree = "<group>"; };
 		CE8D54F52B32DCE100806426 /* client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8D54F82B32DCE100806426 /* clientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clientApp.swift; sourceTree = "<group>"; };
 		CE8D54FA2B32DCE100806426 /* TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 			isa = PBXGroup;
 			children = (
 				CE8D54FA2B32DCE100806426 /* TopView.swift */,
+				CE7A661E2B3428C40011328A /* ImageData.swift */,
 				CE8D550D2B32E7F400806426 /* Login */,
 				CE8D550E2B32E7F900806426 /* Register */,
 			);
@@ -277,6 +280,7 @@
 				CE8D55142B32E97000806426 /* LoginMainView.swift in Sources */,
 				CE8D551E2B32EA9200806426 /* TakePhotoView.swift in Sources */,
 				CEC7D8742B3330A400C4B152 /* Images.swift in Sources */,
+				CE7A661F2B3428C40011328A /* ImageData.swift in Sources */,
 				CE8D551A2B32EA4100806426 /* TakeArPhotoView.swift in Sources */,
 				CE8D55122B32E91C00806426 /* RegisterEntryView.swift in Sources */,
 				CE8D55222B32ED3F00806426 /* HomeView.swift in Sources */,
