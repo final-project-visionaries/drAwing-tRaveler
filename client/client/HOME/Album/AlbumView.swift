@@ -1,10 +1,3 @@
-//
-//  AlbumView.swift
-//  client
-//
-//  Created by user on 2023/12/20.
-//
-
 import SwiftUI
 
 struct AlbumView: View {
@@ -13,6 +6,6 @@ struct AlbumView: View {
     }
 }
 
-#Preview {
-    AlbumView()
-}
+//#Preview {
+//    AlbumView()
+//}

@@ -1,18 +1,8 @@
-//
-//  HomeView.swift
-//  client
-//
-//  Created by user on 2023/12/20.
-//
-
 import SwiftUI
 
 struct HomeView: View {
-    @EnvironmentObject var imageData : ImageData
     @State private var isCameraPresented = false
     var body: some View {
-        //Text("ホーム画面")
-        //Text(imageData.dummyData[0]["image_name"] ?? "Hello")
         ZStack{
             Image("sky").edgesIgnoringSafeArea(.all)
             VStack{
@@ -29,7 +19,6 @@ struct HomeView: View {
                                 )
                             Text("おえかきする").foregroundColor(.black)
                         }
-                        
                     }
                     NavigationLink(destination: AlbumView()){
                         VStack{
@@ -43,14 +32,11 @@ struct HomeView: View {
                                 )
                             Text("あるばむをみる").foregroundColor(.black)
                         }
-                        
-                        
                     }
                 }
+                
                 HStack (spacing : 200){
-                    Button(action: {
-                        isCameraPresented = true
-                    }) {
+                    Button(action: {isCameraPresented = true}) {
                         HStack{
                             VStack{
                                 Image("takephoto")
@@ -64,15 +50,12 @@ struct HomeView: View {
                                 Text("えのしゃしんをとる")
                                     .foregroundColor(.black)
                             }
-                            //Spacer()
                         }
-                        
                     }
                     .fullScreenCover(isPresented: $isCameraPresented, content: {
-                        //CameraView()
                         TakePhotoView()
                     })
-                    NavigationLink(destination: SelectImageView().environmentObject(client.ImageData())){
+                    NavigationLink(destination: SelectImageView()){
                         VStack{
                             Image("takearphoto")
                                 .resizable()
@@ -91,6 +74,6 @@ struct HomeView: View {
     }
 }
 
-#Preview(traits: PreviewTrait.landscapeLeft){
-    HomeView().environmentObject(ImageData())
-}
+//#Preview(traits: PreviewTrait.landscapeLeft){
+//    HomeView().environmentObject(ImageData())
+//}
