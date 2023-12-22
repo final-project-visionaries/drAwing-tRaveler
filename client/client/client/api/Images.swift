@@ -26,35 +26,23 @@ var apiEndPoint = "https://drawing-traveler-7a488b236b7c.herokuapp.com/api/v1/im
 //var apiEndPoint = "https://drawing-traveler-server.onrender.com/api/v1/images"
 
 //getリクエスト
-func apiImageGetRequest() async -> [[String: Any]] {
-    //returnに格納する配列準備
-    var decodedImages : [[String: Any]] = []
-    //awaitでwithCheckedContinuationのコールバック関数の処理を待てる
-    await withCheckedContinuation { continuation in
+func apiImageGetRequest() async throws -> [ApiImage] {
+    try await withCheckedContinuation { continuation in
         AF.request(apiEndPoint, method: .get)
             .response{ response in
-
                 let decoder = JSONDecoder()
                 do {
                     let images = try decoder.decode([ApiImage].self, from: response.data!)
-                    for image in images {
-                        var dictionary: [String: Any] = [:]
-                        dictionary["id"] = image.id
-                        dictionary["image_name"] = image.image_name
-                        dictionary["image_data"] = image.image_data
-                        dictionary["updated_at"] = image.updated_at
-                        decodedImages.append(dictionary)
-                    }
-                    //多分ここでdecodedImagesに結果を格納しに行っている
-                    continuation.resume(returning: decodedImages)
-                    
+                    continuation.resume(returning: images)
+                    print("GET images type : \(type(of:images))")
                 } catch {
-                    print("Error decoding JSON: (error)")
+                    print("Error decoding JSON: \(error)")
+                    continuation.resume(throwing: error as! Never)
                 }
             }
     }
-    return decodedImages
 }
+
 
 
 func apiImagePostRequest(reqBody : [String: String]) async -> [String: Any] {
