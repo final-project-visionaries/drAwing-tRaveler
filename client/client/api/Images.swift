@@ -1,9 +1,3 @@
-//
-//  images.swift
-//  API_TEST
-//
-//  Created by user on 2023/12/18.
-//
 import SwiftUI
 import Alamofire
 
@@ -25,7 +19,7 @@ var apiEndPoint = "https://drawing-traveler-7a488b236b7c.herokuapp.com/api/v1/im
 //render
 //var apiEndPoint = "https://drawing-traveler-server.onrender.com/api/v1/images"
 
-//getリクエスト
+//getメソッド
 func apiImageGetRequest() async throws -> [ApiImage] {
     try await withCheckedContinuation { continuation in
         AF.request(apiEndPoint, method: .get)
@@ -42,13 +36,9 @@ func apiImageGetRequest() async throws -> [ApiImage] {
             }
     }
 }
-
-
-
+//postメソッド
 func apiImagePostRequest(reqBody : [String: String]) async -> [String: Any] {
-    //returnに格納する配列準備
     var decodedMessage : [String: Any] = [:]
-    //awaitでwithCheckedContinuationのコールバック関数の処理を待てる
     await withCheckedContinuation { continuation in
         AF.request(apiEndPoint, method: .post, parameters: reqBody)
             .response{ response in
@@ -56,7 +46,6 @@ func apiImagePostRequest(reqBody : [String: String]) async -> [String: Any] {
                 do {
                     let message = try decoder.decode(ResponseMessage.self, from: response.data!)
                     decodedMessage["message"] = message.message
-                    //多分ここでdecodedMessageに結果を格納しに行っている
                     continuation.resume(returning: decodedMessage)
                 } catch {
                     print("Error decoding JSON: \(error)")
@@ -68,9 +57,7 @@ func apiImagePostRequest(reqBody : [String: String]) async -> [String: Any] {
 }
 //deleteメソッド
 func apiImageDeleteRequest(imageID : Int) async -> [String: Any] {
-    //returnに格納する配列準備
     var decodedMessage : [String: Any] = [:]
-    //awaitでwithCheckedContinuationのコールバック関数の処理を待てる
     await withCheckedContinuation { continuation in
         AF.request("\(apiEndPoint)/\(imageID)", method: .delete)
             .response{ response in
@@ -78,7 +65,6 @@ func apiImageDeleteRequest(imageID : Int) async -> [String: Any] {
                 do {
                     let message = try decoder.decode(ResponseMessage.self, from: response.data!)
                     decodedMessage["message"] = message.message
-                    //多分ここでdecodedMessageに結果を格納しに行っている
                     continuation.resume(returning: decodedMessage)
                 } catch {
                     print("Error decoding JSON: \(error)")
@@ -90,9 +76,7 @@ func apiImageDeleteRequest(imageID : Int) async -> [String: Any] {
 }
 //updateメソッド
 func apiImageUpdateReqest(reqBody : [String: String],imageID : Int) async -> [String: Any] {
-    //returnに格納する配列準備
     var decodedMessage : [String: Any] = [:]
-    //awaitでwithCheckedContinuationのコールバック関数の処理を待てる
     await withCheckedContinuation { continuation in
         AF.request("\(apiEndPoint)/\(imageID)", method: .patch, parameters: reqBody)
             .response{ response in
@@ -100,7 +84,6 @@ func apiImageUpdateReqest(reqBody : [String: String],imageID : Int) async -> [St
                 do {
                     let message = try decoder.decode(ResponseMessage.self, from: response.data!)
                     decodedMessage["message"] = message.message
-                    //多分ここでdecodedMessageに結果を格納しに行っている
                     continuation.resume(returning: decodedMessage)
                 } catch {
                     print("Error decoding JSON: \(error)")

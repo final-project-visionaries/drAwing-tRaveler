@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CE7A661B2B341B330011328A /* pic1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE7A661A2B341B330011328A /* pic1.jpg */; };
-		CE7A661D2B341B3A0011328A /* sky.png in Resources */ = {isa = PBXBuildFile; fileRef = CE7A661C2B341B3A0011328A /* sky.png */; };
 		CE8D54F92B32DCE100806426 /* clientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D54F82B32DCE100806426 /* clientApp.swift */; };
 		CE8D54FB2B32DCE100806426 /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D54FA2B32DCE100806426 /* TopView.swift */; };
 		CE8D54FD2B32DCE300806426 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE8D54FC2B32DCE300806426 /* Assets.xcassets */; };
@@ -30,8 +28,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		CE7A661A2B341B330011328A /* pic1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pic1.jpg; sourceTree = "<group>"; };
-		CE7A661C2B341B3A0011328A /* sky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sky.png; sourceTree = "<group>"; };
 		CE8D54F52B32DCE100806426 /* client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8D54F82B32DCE100806426 /* clientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clientApp.swift; sourceTree = "<group>"; };
 		CE8D54FA2B32DCE100806426 /* TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
@@ -115,11 +111,11 @@
 		CE8D55072B32E76C00806426 /* HOME */ = {
 			isa = PBXGroup;
 			children = (
+				CE8D55212B32ED3F00806426 /* HomeView.swift */,
 				CE8D55082B32E77600806426 /* SelectImage */,
 				CE8D550A2B32E7B200806426 /* Album */,
 				CE8D550B2B32E7B900806426 /* TakePhoto */,
 				CE8D550C2B32E7C000806426 /* Drawing */,
-				CE8D55212B32ED3F00806426 /* HomeView.swift */,
 			);
 			path = HOME;
 			sourceTree = "<group>";
@@ -127,8 +123,6 @@
 		CE8D55082B32E77600806426 /* SelectImage */ = {
 			isa = PBXGroup;
 			children = (
-				CE7A661C2B341B3A0011328A /* sky.png */,
-				CE7A661A2B341B330011328A /* pic1.jpg */,
 				CE8D55172B32EA1B00806426 /* SelectImageView.swift */,
 				CE8D55092B32E79100806426 /* TakeArPhoto */,
 			);
@@ -259,8 +253,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE8D55002B32DCE300806426 /* Preview Assets.xcassets in Resources */,
-				CE7A661D2B341B3A0011328A /* sky.png in Resources */,
-				CE7A661B2B341B330011328A /* pic1.jpg in Resources */,
 				CE8D54FD2B32DCE300806426 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -420,7 +412,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = XVZ2LPCAL2;
+				DEVELOPMENT_TEAM = LBAQD48WFX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使用します";
@@ -434,7 +426,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kazuyoshiogata;
+				PRODUCT_BUNDLE_IDENTIFIER = com.myu.HelloWorld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -450,7 +442,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = XVZ2LPCAL2;
+				DEVELOPMENT_TEAM = LBAQD48WFX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使用します";
@@ -464,7 +456,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.kazuyoshiogata;
+				PRODUCT_BUNDLE_IDENTIFIER = com.myu.HelloWorld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -1,10 +1,3 @@
-//
-//  DrawingView.swift
-//  client
-//
-//  Created by user on 2023/12/20.
-//
-
 import SwiftUI
 
 struct DrawingView: View {
@@ -13,6 +6,6 @@ struct DrawingView: View {
     }
 }
 
-#Preview {
-    DrawingView()
-}
+//#Preview {
+//    DrawingView()
+//}
