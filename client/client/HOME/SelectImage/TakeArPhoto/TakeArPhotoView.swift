@@ -1,26 +1,64 @@
 import SwiftUI
+import RealityKit
+import ARKit
 
-struct TakeArPhotoView: View {
-    @EnvironmentObject var data : ImageData
+struct TakeArPhotoView : View {
+    @EnvironmentObject var imageData : ImageData
     
     var body: some View {
-        Text("AR表示をして写真を撮る")
-        Text("取得された画像データ : \(data.AllImages.count)枚").foregroundStyle(.green)
-        Text("選択されたARモデル : \(data.SelectedImages.filter{ $0 == true }.count)個").foregroundStyle(.red)
+        ARViewContainer().edgesIgnoringSafeArea(.all)
         HStack{
-            ForEach(0 ..< data.AllImages.count, id: \.self){ i in
-                if data.SelectedImages[i] == true {
-                    VStack{
-                        Image(uiImage: data.AllUIImages[i]).resizable().scaledToFit().frame(height: 100)
-                        Text("\(i+1) : \(data.AllImages[i].image_name)")
-                            .font(.caption).fontWeight(.bold).padding(.top).foregroundColor(.blue)
-                    }
+            HStack(spacing:0){ // 画面下部のミニ画像
+                ForEach(0 ..< imageData.ArModels.count, id: \.self){ i in
+                    Image(uiImage: imageData.ArModels[i]).resizable().scaledToFit().frame(height: 40).padding(10)
                 }
-            }.padding(.horizontal, 40)
+            }
+            .background(Color.pink.opacity(0.1))
+            .cornerRadius(10)
+            Spacer()
+            Button(action: {
+                print("AR camera!")
+                SoundManager.instance.playSound(sound: "camera", withExtension: "mp3")
+            }, label:{Image(systemName: "camera.fill")})
+        }
+        .customBackButton()
+        .onAppear{
+            SoundManager.instance.playSound(sound: "bell", withExtension: "mp3")
         }
     }
 }
 
+struct ARViewContainer: UIViewRepresentable {
+    @EnvironmentObject var imageData : ImageData
+    
+    let arView = ARView(frame: .zero)
+    
+    func setupARView() {
+        let box = ModelEntity(mesh: .generateBox(size: simd_make_float3(0.2, 0.2, 0)))
+        let anchor = AnchorEntity(.plane(.horizontal, classification: .any, minimumBounds: SIMD2<Float>(0.2, 0.2)))
+        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("temp.png")
+        var imageMaterial = UnlitMaterial()
+        Task {
+            let uiImage = imageData.ArModels[0]
+            if let pngData = uiImage.pngData(),
+               ((try? pngData.write(to: url)) != nil),
+               let texture = try? TextureResource.load(contentsOf: url) {
+                imageMaterial.baseColor = MaterialColorParameter.texture(texture)
+                box.model?.materials = [imageMaterial]
+                anchor.children.append(box)
+            }
+            arView.scene.anchors.append(anchor)
+        }
+    }
+    
+    func makeUIView(context: Context) -> ARView {
+        setupARView()
+        return arView
+    }
+    
+    func updateUIView(_ uiView: ARView, context: Context) {}
+}
+
 //#Preview {
-//    TakeArPhotoView()
+//    TakeArPhotoView().environmentObject(ImageData())
 //}

@@ -13,6 +13,6 @@ struct RegisterMainView: View {
     }
 }
 
-#Preview {
-    RegisterMainView()
-}
+//#Preview {
+//    RegisterMainView()
+//}
