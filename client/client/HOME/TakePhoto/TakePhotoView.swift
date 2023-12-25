@@ -1,6 +1,8 @@
 import SwiftUI
+//aaaaa
 
 struct TakePhotoView: UIViewControllerRepresentable {
+    @EnvironmentObject var imageData : ImageData
     func makeUIViewController(context: Context) -> some UIViewController {
         let picker = UIImagePickerController()
         picker.sourceType = .camera
@@ -12,18 +14,26 @@ struct TakePhotoView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
 
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(imageData: self.imageData)
     }
 
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+        
+        var imageData: ImageData
+        
+
+    init(imageData: ImageData) {
+        self.imageData = imageData
+    }
+        
         func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
             // ここで撮影した画像を取得できます
             if let image = info[.originalImage] as? UIImage {
                 // 画像を使用する処理を書く
                 let resizedImage = resizeImage(image: image, targetSize: CGSize(width: 200, height: 200))
                             // 画像をBase64にエンコード
-                            if let imageData = resizedImage.jpegData(compressionQuality: 1.0) {
-                                let base64String = imageData.base64EncodedString()
+                            if let imageDataFromBack = resizedImage.jpegData(compressionQuality: 1.0) {
+                                let base64String = imageDataFromBack.base64EncodedString()
                                 // base64Stringを使用する処理を書く
                                 let imageName = String(base64String.prefix(10))
                                 var sendData: [String:String] = [:]
@@ -33,6 +43,7 @@ struct TakePhotoView: UIViewControllerRepresentable {
                                 Task {
                                     let res = await apiImagePostRequest(reqBody: sendData)
                                     print("res : \(res)")
+                                    imageData.SetImages()
                                 }
                                 
                             }
