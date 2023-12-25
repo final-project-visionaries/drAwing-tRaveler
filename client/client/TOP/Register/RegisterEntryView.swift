@@ -13,6 +13,6 @@ struct RegisterEntryView: View {
     }
 }
 
-#Preview {
-    RegisterEntryView()
-}
+//#Preview {
+//    RegisterEntryView()
+//}

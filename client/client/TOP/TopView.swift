@@ -1,44 +1,67 @@
 import SwiftUI
+import AVFoundation
+
+let musicData = NSDataAsset(name: "top")!.data
+var musicPlayer:AVAudioPlayer!
 
 struct TopView: View {
-    @StateObject var data = ImageData()
+    @StateObject var imageData = ImageData()
     
     var body: some View {
-        VStack {
-            NavigationView {
-                List {
-                    Text("TOP")//ここで仮置き（TOP画面だとわかるように。）
-                    NavigationLink(destination: HomeView()){
-                        Image(systemName: "house.fill")
-                            .imageScale(.large)
-                        Text("ホーム")
+        NavigationView {
+            ZStack{
+                Image("sky3").resizable()
+                    .scaledToFit()
+                    .frame(width: 1400, height: 600)
+                    .clipShape(Rectangle())
+                VStack(spacing:50){
+                    Image("appname4")
+                    HStack(spacing:90){
+                        
+                        NavigationLink(destination: HomeView()){
+                            VStack{
+                                Image("crayon-rd").resizable().scaledToFit()
+                                    .frame(width: 150, height: 150)
+                                Image("label_toHome").resizable()
+                                    .scaledToFit()
+                                    .frame(width: 300, height: 30)
+                            }
+                        }
+                        .simultaneousGesture(TapGesture().onEnded{
+                            do{
+                                musicPlayer = try AVAudioPlayer(data: musicData)
+                                musicPlayer.play()
+                            }catch{
+                                print("音の再生に失敗しました。")
+                            }
+                        })
+                        
+                        NavigationLink(destination: RegisterEntryView()){
+                            VStack{
+                                Image("greeting").resizable().scaledToFit()
+                                    .frame(width: 150, height: 150)
+                                Image("label_toRegister").resizable()
+                                    .scaledToFit()
+                                    .frame(width: 300, height: 30)
+                            }
+                        }
+                        .simultaneousGesture(TapGesture().onEnded{
+                            do{
+                                musicPlayer = try AVAudioPlayer(data: musicData)
+                                musicPlayer.play()
+                            }catch{
+                                print("音の再生に失敗しました。")
+                            }
+                        })
+                        
                     }
-                    Button{
-                        data.SetImages() // 非同期処理 -> 初期化
-                    } label: {Text("画像データを再取得")}
-                    Text("取得された画像データ : \(data.AllImages.count)枚").foregroundStyle(.green)
-                    Text("選択されたARモデル : \(data.SelectedImages.filter{ $0 == true }.count)個").foregroundStyle(.red)
-                    //                    NavigationLink(destination: LoginEntryView()){
-                    //                        //.environmentObject(UserData())) {
-                    //                            Image(systemName: "macpro.gen3.fill")
-                    //                                .imageScale(.large)
-                    //                            Text("ログイン")
-                    //                        }
-                    //                    NavigationLink(destination: RegisterEntryView()){
-                    //                            Image(systemName: "house.fill")
-                    //                                .imageScale(.large)
-                    //                            Text("新規登録")
-                    //                        }
                 }
             }
         }
-        .environmentObject(data)
-        .onAppear{
-            data.SetImages() // 非同期処理 -> 初期化
-        }
+        .environmentObject(imageData)
     }
 }
 
-//#Preview {
+//#Preview(traits: PreviewTrait.landscapeLeft) {
 //    TopView()
 //}
