@@ -1,71 +1,63 @@
 import SwiftUI
-//aaaaa
+import RealityKit
+import ARKit
 
-struct TakePhotoView: UIViewControllerRepresentable {
-    @EnvironmentObject var imageData : ImageData
-    func makeUIViewController(context: Context) -> some UIViewController {
-        let picker = UIImagePickerController()
-        picker.sourceType = .camera
-        picker.delegate = context.coordinator
-        picker.navigationController?.isNavigationBarHidden = true
-        return picker
-    }
+struct TakePhotoView : View {
+    
+  @EnvironmentObject var imageData : ImageData
 
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-
-    func makeCoordinator() -> Coordinator {
-        Coordinator(imageData: self.imageData)
-    }
-
-    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        
-        var imageData: ImageData
-        
-
-    init(imageData: ImageData) {
-        self.imageData = imageData
-    }
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            // ここで撮影した画像を取得できます
-            if let image = info[.originalImage] as? UIImage {
-                // 画像を使用する処理を書く
-                let resizedImage = resizeImage(image: image, targetSize: CGSize(width: 200, height: 200))
-                            // 画像をBase64にエンコード
-                            if let imageDataFromBack = resizedImage.jpegData(compressionQuality: 1.0) {
-                                let base64String = imageDataFromBack.base64EncodedString()
-                                // base64Stringを使用する処理を書く
-                                let imageName = String(base64String.prefix(10))
-                                var sendData: [String:String] = [:]
-                                sendData["image_name"] = imageName
-                                sendData["image_data"] = base64String
-//                                print("sendData : \(sendData)")
-                                Task {
-                                    let res = await apiImagePostRequest(reqBody: sendData)
-                                    print("res : \(res)")
-                                    imageData.SetImages()
-                                }
-                                
-                            }
+  var body: some View {
+    HStack{
+      ARViewContainer2().edgesIgnoringSafeArea(.all)
+      Spacer()
+      VStack{
+        Spacer()
+        Button {
+          ARVariables2.arView.snapshot(saveToHDR: false) { (image) in
+            let compressedImage = UIImage(data: (image?.pngData())!)
+            var sendData: [String:String] = [:]
+            sendData["image_name"] = "post from Camera View"
+            sendData["image_data"] = imageData.resizeImageToBase64(image: compressedImage ?? UIImage())
+            Task {
+              let res = await apiImagePostRequest(reqBody: sendData)
             }
-            picker.dismiss(animated: true)
+          }
+          SoundManager.instance.playSound(sound: "camera", withExtension: "mp3")
+        } label: {
+          Image(systemName: "camera")
+            .frame(width:60, height:60).font(.title)
+            .background(.white.opacity(0.75)).cornerRadius(30).padding()
         }
-        func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
-                let size = image.size
-                let widthRatio  = targetSize.width  / size.width
-                let heightRatio = targetSize.height / size.height
-                let ratio = min(widthRatio, heightRatio)
-                let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
-                let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
-                
-                UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
-                image.draw(in: rect)
-                let newImage = UIGraphicsGetImageFromCurrentImageContext()
-                UIGraphicsEndImageContext()
-                
-                return newImage ?? UIImage()
-            }
+      }
+      .background(
+        LinearGradient(
+          gradient: Gradient(colors: [Color.yellow,Color.orange]),
+          startPoint: .init(x: 0.3, y: 0.3),
+          endPoint: .init(x: 0.55, y: 0.55)
+        ))
+      .customBackButton()
+      .onAppear{
+        SoundManager.instance.playSound(sound: "bell", withExtension: "mp3")
+      }
+      .onDisappear{
+        ARVariables2.dismantleUIView(ARVariables2.arView, coordinator: ())//HomeViewに戻った際にARセッションを止めてエラー回避
+      }
     }
+  }
 }
 
+//snapshot（スクショ）を撮影するためにstructを定義
+struct ARVariables2{
+  static var arView: ARView!
+  static func dismantleUIView(_ uiView: ARView, coordinator: ()) {
+    uiView.session.pause() // Do I need it???
+  }
+}
 
+struct ARViewContainer2: UIViewRepresentable {
+  func makeUIView(context: Context) -> ARView {
+    ARVariables2.arView = ARView(frame: .zero)
+    return ARVariables2.arView
+  }
+  func updateUIView(_ uiView: ARView, context: Context) {}
+}

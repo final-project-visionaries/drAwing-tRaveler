@@ -36,22 +36,18 @@ struct HomeView: View {
                     }
                 }
                 HStack (spacing : 80){
-                    Button(action: {
-                        isCameraPresented = true
-                    }) {
+                    NavigationLink(destination: TakePhotoView()){
                         VStack(spacing:-10){
                             Image("photo")
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 150, height: 150)
+                                .cornerRadius(30)
                             Image("label_photo").resizable()
                                 .scaledToFit()
                                 .frame(width: 300, height: 30)
                         }
                     }
-                    .fullScreenCover(isPresented: $isCameraPresented, content: {
-                        TakePhotoView()
-                    })
                     NavigationLink(destination: SelectImageView()){
                         VStack(spacing:-10){
                             Image("takearphoto")
