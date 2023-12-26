@@ -43,6 +43,44 @@ struct Useage: View {
                     print("result : \(result)")
                 }
             }){Text("updateメソッド")}
+            
+            Button{
+                print("ボタン押しました")
+                //非同期関数を呼ぶ時のみTask(=async)でラッピングする
+                Task {
+                    let result = try await apiAlbumGetRequest()
+                    for elm in result {
+                        print("result : \(elm.album_name)")
+                    }
+                }
+            }label:{Text("album_getメソッド")}
+            
+            //actionのvalueは関数でなければならない
+            //引数を渡したい場合は、{}で括って、クロージャーの中で呼び出す
+            Button(action: { () -> () in
+                //postで渡す辞書型のデータを作る仮の関数（本番はフロントで作成）
+                Task {
+                    let tempData = getAlbumTempData()
+                    //postリクエストを引数を渡して実行
+                    let result = await apiAlbumPostRequest(reqBody: tempData)
+                    print("result : \(result)")
+                }
+            }){Text("album_postメソッド")}
+            
+            Button(action: { () -> () in
+                Task {
+                    let result = await apiAlbumDeleteRequest(albumID: 7)
+                    print("result : \(result)")
+                }
+            }){Text("album_deleteメソッド")}
+            
+            Button(action: { () -> () in
+                Task {
+                    let tempData = getAlbumTempData2()
+                    let result = await apiAlbumUpdateReqest(reqBody: tempData, albumID: 7)
+                    print("result : \(result)")
+                }
+            }){Text("album_updateメソッド")}
         }.padding()
     }
     
@@ -62,8 +100,24 @@ struct Useage: View {
         ]
         return temp
     }
+    
+    func getAlbumTempData () -> [String : String]{
+        let temp = [
+            "album_name" : "sadsadsadsad",
+            "album_data" : "4QLbHMNtEa2+44YYbbrjhhhtuuOFZ8P/knqV3FzgJqgAAAABJRU5ErkJggg"
+        ]
+        return temp
+    }
+    
+    func getAlbumTempData2 () -> [String : String]{
+        let temp = [
+            "album_name" : "sad",
+            "album_data" : "567798qw"
+        ]
+        return temp
+    }
 }
 
-//#Preview {
-//    Useage()
-//}
+#Preview {
+    Useage()
+}
