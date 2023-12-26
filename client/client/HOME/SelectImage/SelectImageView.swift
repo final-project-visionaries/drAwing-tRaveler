@@ -1,7 +1,9 @@
 import SwiftUI
 
+
 struct SelectImageView: View {
     @EnvironmentObject var imageData : ImageData
+    @State private var isDisable: Bool = true
     
     var body: some View {
         ZStack{
@@ -19,6 +21,11 @@ struct SelectImageView: View {
                                     imageData.SelectedImages[i].toggle()
                                     print("選択された画像 : \(i), トータル : \(imageData.SelectedImages.filter{ $0 == true }.count)枚")
                                     imageData.SetArModels()
+                                    if imageData.ArModels.isEmpty {
+                                        isDisable = true
+                                    } else {
+                                        isDisable = false
+                                    }
                                 }
                                 .clipped().shadow(color: Color.black, radius: 5, x: 5, y: 5)
                                 .overlay(
@@ -55,7 +62,10 @@ struct SelectImageView: View {
                 NavigationLink(destination: TakeArPhotoView()){
                     Image(systemName: "checkmark.circle.fill").imageScale(.large).foregroundStyle(.white)
                     Text("ARをうつす").foregroundStyle(.white).padding(.trailing)
-                }.background(.green).font(.body.bold()).cornerRadius(5)
+                }
+                .background(.green).font(.body.bold()).cornerRadius(5)
+                .opacity(isDisable ? 0.5 : 1.0)
+                .disabled(isDisable)//無選択では押せない
             }
         }
         .onAppear{

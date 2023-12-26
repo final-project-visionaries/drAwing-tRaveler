@@ -35,4 +35,23 @@ class ImageData: ObservableObject {
         }
         print("ArModels-> \(ArModels.count)")
     }
+    
+    //UIImageをもらってリサイズして圧縮してエンコードしてbase64をリターンする
+    func resizeImageToBase64(image: UIImage) -> String {
+        let targetSize = CGSize(width: 200, height: 200)
+        let size = image.size
+        let widthRatio = targetSize.width / size.width
+        let heightRatio = targetSize.height / size.height
+        let ratio = min(widthRatio, heightRatio)
+        let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        let imageDataFromBack = newImage?.jpegData(compressionQuality: 1.0)
+        let base64String = imageDataFromBack?.base64EncodedString()
+        return base64String ?? "post error"
+      }
 }
+

@@ -4,56 +4,69 @@ import ARKit
 
 struct TakeArPhotoView : View {
     @EnvironmentObject var imageData : ImageData
-    
     var body: some View {
-        ARViewContainer().edgesIgnoringSafeArea(.all)
         HStack{
-            HStack(spacing:0){ // 画面下部のミニ画像
-                ForEach(0 ..< imageData.ArModels.count, id: \.self){ i in
-                    Image(uiImage: imageData.ArModels[i]).resizable().scaledToFit().frame(height: 40).padding(10)
+            ARViewContainer().edgesIgnoringSafeArea(.all)
+            Spacer()
+            VStack{
+                VStack(spacing:0){ // 画面右側のミニ画像
+                    ForEach(0 ..< imageData.ArModels.count, id: \.self){ i in
+                        Image(uiImage: imageData.ArModels[i] )
+                            .resizable().scaledToFit().frame(maxWidth: 60,maxHeight:60)
+                    }
+                }
+                Spacer()
+                Button {//写真撮影ボタンを押してスクショを撮り、album_tableにPOST
+                    ARVariables.arView.snapshot(saveToHDR: false) { (image) in
+                        let compressedImage = UIImage(data: (image?.pngData())!)
+                        var sendData: [String:String] = [:]
+                        sendData["album_name"] = "post from AR View"
+                        sendData["album_data"] = imageData.resizeImageToBase64(image: compressedImage ?? UIImage())
+                        //            sendData["album_latitude"] = 35.1706431//緯度
+                        //            sendData["album_longitude"] = 136.8816945//経度
+                        Task {
+                            let res = await apiAlbumPostRequest(reqBody: sendData)
+                            print(res)
+                        }
+                    }
+                    SoundManager.instance.playSound(sound: "camera", withExtension: "mp3")
+                } label: {
+                    Image(systemName: "camera")
+                        .frame(width:60, height:60).font(.title)
+                        .background(.white.opacity(0.75)).cornerRadius(30).padding()
                 }
             }
-            .background(Color.pink.opacity(0.1))
-            .cornerRadius(10)
-            Spacer()
-            Button(action: {
-                print("AR camera!")
-                SoundManager.instance.playSound(sound: "camera", withExtension: "mp3")
-            }, label:{Image(systemName: "camera.fill")})
-        }
-        .customBackButton()
-        .onAppear{
-            SoundManager.instance.playSound(sound: "bell", withExtension: "mp3")
+            .background(//画面右側のミニ画像の背景色を設定
+                LinearGradient(
+                    gradient: Gradient(colors: [Color.cyan,Color.blue]),
+                    startPoint: .init(x: 0.3, y: 0.3),
+                    endPoint: .init(x: 0.55, y: 0.55)
+                ))
+            .customBackButton()
+            .onAppear{
+                SoundManager.instance.playSound(sound: "bell", withExtension: "mp3")
+            }
         }
     }
+}
+
+//snapshot（スクショ）を撮影するためにstructを定義
+struct ARVariables{
+    static var arView: ARView!
 }
 
 struct ARViewContainer: UIViewRepresentable {
     @EnvironmentObject var imageData : ImageData
     
-    let arView = ARView(frame: .zero)
-    
-    func setupARView() {
-        let box = ModelEntity(mesh: .generateBox(size: simd_make_float3(0.2, 0.2, 0)))
-        let anchor = AnchorEntity(.plane(.horizontal, classification: .any, minimumBounds: SIMD2<Float>(0.2, 0.2)))
-        let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent("temp.png")
-        var imageMaterial = UnlitMaterial()
-        Task {
-            let uiImage = imageData.ArModels[0]
-            if let pngData = uiImage.pngData(),
-               ((try? pngData.write(to: url)) != nil),
-               let texture = try? TextureResource.load(contentsOf: url) {
-                imageMaterial.baseColor = MaterialColorParameter.texture(texture)
-                box.model?.materials = [imageMaterial]
-                anchor.children.append(box)
-            }
-            arView.scene.anchors.append(anchor)
-        }
-    }
-    
     func makeUIView(context: Context) -> ARView {
-        setupARView()
-        return arView
+        ARVariables.arView = ARView(frame: .zero)
+        ARVariables.arView.addGestureRecognizer(UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap)))
+        
+        context.coordinator.view = ARVariables.arView
+        return ARVariables.arView
+    }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(arData:imageData.ArModels)
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {}
