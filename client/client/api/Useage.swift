@@ -48,9 +48,9 @@ struct Useage: View {
                 print("ボタン押しました")
                 //非同期関数を呼ぶ時のみTask(=async)でラッピングする
                 Task {
-                    let result = try await apiImageGetRequest()
+                    let result = try await apiAlbumGetRequest()
                     for elm in result {
-                        print("result : \(elm.image_name)")
+                        print("result : \(elm.album_name)")
                     }
                 }
             }label:{Text("album_getメソッド")}
@@ -60,24 +60,24 @@ struct Useage: View {
             Button(action: { () -> () in
                 //postで渡す辞書型のデータを作る仮の関数（本番はフロントで作成）
                 Task {
-                    let tempData = getTempData()
+                    let tempData = getAlbumTempData()
                     //postリクエストを引数を渡して実行
-                    let result = await apiImagePostRequest(reqBody: tempData)
+                    let result = await apiAlbumPostRequest(reqBody: tempData)
                     print("result : \(result)")
                 }
             }){Text("album_postメソッド")}
             
             Button(action: { () -> () in
                 Task {
-                    let result = await apiImageDeleteRequest(imageID: 105)
+                    let result = await apiAlbumDeleteRequest(albumID: 7)
                     print("result : \(result)")
                 }
             }){Text("album_deleteメソッド")}
             
             Button(action: { () -> () in
                 Task {
-                    let tempData = getTempData2()
-                    let result = await apiImageUpdateReqest(reqBody: tempData, imageID: 41)
+                    let tempData = getAlbumTempData2()
+                    let result = await apiAlbumUpdateReqest(reqBody: tempData, albumID: 7)
                     print("result : \(result)")
                 }
             }){Text("album_updateメソッド")}
@@ -97,6 +97,22 @@ struct Useage: View {
         let temp = [
             "image_name" : "sadsadsadsad",
             "image_data" : "4QLbHMNtEa2+44YYbbrjhhhtuuOFZ8P/knqV3FzgJqgAAAABJRU5ErkJggg"
+        ]
+        return temp
+    }
+    
+    func getAlbumTempData () -> [String : String]{
+        let temp = [
+            "album_name" : "sadsadsadsad",
+            "album_data" : "4QLbHMNtEa2+44YYbbrjhhhtuuOFZ8P/knqV3FzgJqgAAAABJRU5ErkJggg"
+        ]
+        return temp
+    }
+    
+    func getAlbumTempData2 () -> [String : String]{
+        let temp = [
+            "album_name" : "sad",
+            "album_data" : "567798qw"
         ]
         return temp
     }
