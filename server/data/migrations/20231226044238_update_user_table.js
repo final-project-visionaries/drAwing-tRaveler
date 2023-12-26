@@ -3,7 +3,7 @@
  * @returns { Promise<void> }
  */
 exports.up = function (knex) {
-  return knex.schema.createTable("user", function (table) {
+  return knex.schema.alterTable("user", function (table) {
     table.integer("user_group_id");
   });
 };
