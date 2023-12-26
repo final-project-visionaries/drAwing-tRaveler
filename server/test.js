@@ -13,7 +13,7 @@ const salt = enSalt();
 console.log(`enSalt : ${salt}`);
 const hashedPass = enhash(`${salt}${'abcd'}`);
 console.log(`hashed_pass : ${hashedPass}`);
-
+//
 // username : sad
 // salt : 866502afcd83
 // enhashed_pass : e3fbaab3183a6edab4a7ca4de701a793217c04a9df11f76ba42d80e402094080
