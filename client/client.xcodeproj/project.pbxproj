@@ -33,6 +33,7 @@
 		CEC7D86F2B332FB200C4B152 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = CEC7D86E2B332FB200C4B152 /* Alamofire */; };
 		CEC7D8722B33308600C4B152 /* Useage.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7D8712B33308600C4B152 /* Useage.swift */; };
 		CEC7D8742B3330A400C4B152 /* Images.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEC7D8732B3330A400C4B152 /* Images.swift */; };
+		CEE009622B39C2F6007E64CC /* TakePhotoView3.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE009612B39C2F6007E64CC /* TakePhotoView3.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,6 +63,7 @@
 		CE8D552A2B3443F900806426 /* ImageData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageData.swift; sourceTree = "<group>"; };
 		CEC7D8712B33308600C4B152 /* Useage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Useage.swift; sourceTree = "<group>"; };
 		CEC7D8732B3330A400C4B152 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		CEE009612B39C2F6007E64CC /* TakePhotoView3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TakePhotoView3.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +191,7 @@
 			isa = PBXGroup;
 			children = (
 				CE8D551D2B32EA9200806426 /* TakePhotoView.swift */,
+				CEE009612B39C2F6007E64CC /* TakePhotoView3.swift */,
 			);
 			path = TakePhoto;
 			sourceTree = "<group>";
@@ -319,6 +322,7 @@
 				CE8D55142B32E97000806426 /* LoginMainView.swift in Sources */,
 				CE8D551E2B32EA9200806426 /* TakePhotoView.swift in Sources */,
 				CEC7D8742B3330A400C4B152 /* Images.swift in Sources */,
+				CEE009622B39C2F6007E64CC /* TakePhotoView3.swift in Sources */,
 				CE8D552B2B3443F900806426 /* ImageData.swift in Sources */,
 				CE8D551A2B32EA4100806426 /* TakeArPhotoView.swift in Sources */,
 				CE8D55122B32E91C00806426 /* RegisterEntryView.swift in Sources */,
@@ -460,7 +464,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = LBAQD48WFX;
+				DEVELOPMENT_TEAM = XVZ2LPCAL2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使用します";
@@ -473,7 +477,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.myu.HelloWorld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kazuyoshiogata;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -489,7 +493,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = LBAQD48WFX;
+				DEVELOPMENT_TEAM = XVZ2LPCAL2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使用します";
@@ -502,7 +506,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.myu.HelloWorld;
+				PRODUCT_BUNDLE_IDENTIFIER = com.kazuyoshiogata;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
