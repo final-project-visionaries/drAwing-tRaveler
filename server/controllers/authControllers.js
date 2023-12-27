@@ -14,25 +14,40 @@ const enhash = (str) => {
 const enSalt = () => crypto.randomBytes(6).toString('hex');
 
 //最初にuser情報取得した結果を格納する配列を用意
-let users = [];
+let users = [{ id: 1, user_name: 'sad', hashed_password: '1234' }];
 // Passportの設定
 
 //local-login
 passport.use(
   'local-login',
-  new LocalStrategy((user_name, user_password, done) => {
-    //一致する要素があればuserに格納
-    const user = users.find(
-      (u) =>
-        u.user_name === user_name &&
-        // u.hashed_password === password
-        //DBのハッシュ化されたPWとDBのsaltとユーザーから送られたPWが一致するか確認
-        u.hashed_password === enhash(`${u.salt}${user_password}`)
-    );
+  new LocalStrategy((username, password, done) => {
+    console.log('localログイン来ています');
+    console.log('username :', username);
+    console.log('password :', password);
+    console.log('typeof password :', typeof password);
+    console.log('users :', users);
+
+    const user = users.find((u) => {
+      console.log('u.hashed_password : ', u.hashed_password);
+      console.log('password : ', password);
+      if (u.user_name === username && u.hashed_password === password)
+        return true;
+    });
+    // const user = users.find(
+    //   (u) =>
+    //     u.user_name === username &&
+    //     // u.hashed_password === password
+    //     //DBのハッシュ化されたPWとDBのsaltとユーザーから送られたPWが一致するか確認
+    //     u.hashed_password === password
+    //   // u.hashed_password === enhash(`${u.salt}${password}`)
+    // );
+    console.log('user : ', user);
     if (user) {
       //一致したuserがいれば(=第二引数がtruety)doneで次に進む
+      console.log('user一致しました');
       return done(null, user);
     } else {
+      console.log('user一致しませんでした');
       return done(null, false, { message: 'Incorrect username or password.' });
     }
   })

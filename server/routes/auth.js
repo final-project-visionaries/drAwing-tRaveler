@@ -6,7 +6,11 @@ const authController = require('../controllers/authControllers');
 // ログイン時のエンドポイント
 router.post(
   '/login',
-  authController.getAllUser,
+  (req, res, next) => {
+    console.log('postリクエスト来ています');
+    next();
+  },
+  // authController.getAllUser,
   authController.passportAuth,
   authController.login
 );
