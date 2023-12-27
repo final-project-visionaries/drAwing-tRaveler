@@ -12,31 +12,31 @@ const setupServer = () => {
   //JSON形式として認識する
   app.use(express.json());
 
-  // app.use(cookieParser());
+  app.use(cookieParser());
 
-  // app.use(
-  //   session({
-  //     secret: 'your-secret-key2',
-  //     resave: false,
-  //     saveUninitialized: true,
-  //     // cookie: {
-  //     //   maxAge: 5 * 1000, // 5 seconds
-  //     // },
-  //   })
-  // );
-  // app.use(passport.initialize());
-  // app.use(passport.session());
+  app.use(
+    session({
+      secret: 'your-secret-key2',
+      resave: false,
+      saveUninitialized: true,
+      // cookie: {
+      //   maxAge: 5 * 1000, // 5 seconds
+      // },
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
 
   app.use(express.urlencoded({ extended: true }));
   //全てのHttpリクエストに対してcorsを許可する
-  // app.use(
-  //   cors({
-  //     origin: true,
-  //     //cookieのやり取りするための設定
-  //     credentials: true,
-  //   })
-  // );
-  app.use(cors());
+  app.use(
+    cors({
+      origin: true,
+      //cookieのやり取りするための設定
+      credentials: true,
+    })
+  );
+  // app.use(cors());
 
   app.get('/', (req, res) => {
     res.send('Herokuのアプリ名変更後');
