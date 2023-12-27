@@ -10,7 +10,7 @@ struct Useage: View {
                 print("ボタン押しました")
                 //非同期関数を呼ぶ時のみTask(=async)でラッピングする
                 Task {
-                    let result = try await apiImageGetRequest()
+                    let result = await apiImageGetRequest()
                     for elm in result {
                         print("result : \(elm.image_name)")
                     }
@@ -48,7 +48,7 @@ struct Useage: View {
                 print("ボタン押しました")
                 //非同期関数を呼ぶ時のみTask(=async)でラッピングする
                 Task {
-                    let result = try await apiAlbumGetRequest()
+                    let result = await apiAlbumGetRequest()
                     for elm in result {
                         print("result : \(elm.album_name)")
                     }
@@ -118,6 +118,6 @@ struct Useage: View {
     }
 }
 
-#Preview {
-    Useage()
-}
+//#Preview {
+//    Useage()
+//}
