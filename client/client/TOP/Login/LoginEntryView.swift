@@ -9,7 +9,9 @@ import SwiftUI
 
 struct LoginEntryView: View {
     var body: some View {
-        Text("ログイン確認前")
+        NavigationLink(destination: LoginMainView()){
+            Text("ログインする")
+        }
     }
 }
 

@@ -14,7 +14,6 @@ const enhash = (str) => {
 const enSalt = () => crypto.randomBytes(6).toString('hex');
 
 //最初にuser情報取得した結果を格納する配列を用意
-// let users = [{ id: 1, user_name: 'sad', hashed_password: '1234' }];
 let users = [];
 // Passportの設定
 
@@ -22,30 +21,13 @@ let users = [];
 passport.use(
   'local-login',
   new LocalStrategy((username, password, done) => {
-    // console.log('localログイン来ています');
-    // console.log('username :', username);
-    // console.log('password :', password);
-    // console.log('typeof password :', typeof password);
-    // console.log('users :', users);
-
     const user = users.find((u) => {
-      // console.log('u.hashed_password : ', u.hashed_password);
-      // console.log('password : ', password);
-      // if (u.user_name === username && u.hashed_password === password)
       if (
         u.user_name === username &&
         u.hashed_password === enhash(`${u.salt}${password}`)
       )
         return true;
     });
-    // const user = users.find(
-    //   (u) =>
-    //     u.user_name === username &&
-    //     // u.hashed_password === password
-    //     //DBのハッシュ化されたPWとDBのsaltとユーザーから送られたPWが一致するか確認
-    //     u.hashed_password === password
-    //   // u.hashed_password === enhash(`${u.salt}${password}`)
-    // );
     console.log('user : ', user);
     if (user) {
       //一致したuserがいれば(=第二引数がtruety)doneで次に進む
