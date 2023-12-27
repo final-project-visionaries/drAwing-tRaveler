@@ -5,8 +5,6 @@ struct SplashView: View {
     @State private var size = 0.08 // splashの画像のサイズ
     @State private var opacity = 0.1 // splashの画像の透明度(浮き出てくるアニメーションのため)
     
-    let bgmPlayer = BgmPlay()
-    
     var body: some View {
         if isActive{
             TopView()
@@ -25,7 +23,7 @@ struct SplashView: View {
                 .scaleEffect(size)
                 .opacity(opacity)
                 .onAppear{
-                    // bgmPlayer.play(fileName:"back", extentionName: "mp3")
+                    PlayBGM.instance.playBGM(filename:"back")//BGMを再生
                     
                     withAnimation(.easeIn(duration: 1.2)){
                         self.size = 0.2

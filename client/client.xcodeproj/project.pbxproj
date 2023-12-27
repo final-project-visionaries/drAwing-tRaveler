@@ -10,11 +10,6 @@
 		CE848CDF2B3967000007D8D1 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE848CDE2B3967000007D8D1 /* SplashView.swift */; };
 		CE848CE32B3967570007D8D1 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE848CE22B3967570007D8D1 /* CustomButton.swift */; };
 		CE848CE52B39676E0007D8D1 /* PlaySound.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE848CE42B39676E0007D8D1 /* PlaySound.swift */; };
-		CE848CF52B398AA50007D8D1 /* car.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE848CF02B398AA50007D8D1 /* car.mp3 */; };
-		CE848CF62B398AA50007D8D1 /* start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE848CF12B398AA50007D8D1 /* start.mp3 */; };
-		CE848CF72B398AA50007D8D1 /* bell.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE848CF22B398AA50007D8D1 /* bell.mp3 */; };
-		CE848CF82B398AA50007D8D1 /* back.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE848CF32B398AA50007D8D1 /* back.mp3 */; };
-		CE848CF92B398AA50007D8D1 /* camera.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE848CF42B398AA50007D8D1 /* camera.mp3 */; };
 		CE8D54F92B32DCE100806426 /* clientApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D54F82B32DCE100806426 /* clientApp.swift */; };
 		CE8D54FB2B32DCE100806426 /* TopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE8D54FA2B32DCE100806426 /* TopView.swift */; };
 		CE8D54FD2B32DCE300806426 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE8D54FC2B32DCE300806426 /* Assets.xcassets */; };
@@ -41,11 +36,6 @@
 		CE848CDE2B3967000007D8D1 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		CE848CE22B3967570007D8D1 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		CE848CE42B39676E0007D8D1 /* PlaySound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaySound.swift; sourceTree = "<group>"; };
-		CE848CF02B398AA50007D8D1 /* car.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car.mp3; sourceTree = "<group>"; };
-		CE848CF12B398AA50007D8D1 /* start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = start.mp3; sourceTree = "<group>"; };
-		CE848CF22B398AA50007D8D1 /* bell.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = bell.mp3; sourceTree = "<group>"; };
-		CE848CF32B398AA50007D8D1 /* back.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = back.mp3; sourceTree = "<group>"; };
-		CE848CF42B398AA50007D8D1 /* camera.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = camera.mp3; sourceTree = "<group>"; };
 		CE8D54F52B32DCE100806426 /* client.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = client.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CE8D54F82B32DCE100806426 /* clientApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = clientApp.swift; sourceTree = "<group>"; };
 		CE8D54FA2B32DCE100806426 /* TopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopView.swift; sourceTree = "<group>"; };
@@ -86,21 +76,8 @@
 				CE848CE22B3967570007D8D1 /* CustomButton.swift */,
 				CE848CE42B39676E0007D8D1 /* PlaySound.swift */,
 				CE8D552A2B3443F900806426 /* ImageData.swift */,
-				CE848CE12B3967400007D8D1 /* MusicMaterial */,
 			);
 			path = Utility;
-			sourceTree = "<group>";
-		};
-		CE848CE12B3967400007D8D1 /* MusicMaterial */ = {
-			isa = PBXGroup;
-			children = (
-				CE848CF32B398AA50007D8D1 /* back.mp3 */,
-				CE848CF22B398AA50007D8D1 /* bell.mp3 */,
-				CE848CF42B398AA50007D8D1 /* camera.mp3 */,
-				CE848CF02B398AA50007D8D1 /* car.mp3 */,
-				CE848CF12B398AA50007D8D1 /* start.mp3 */,
-			);
-			path = MusicMaterial;
 			sourceTree = "<group>";
 		};
 		CE8D54EC2B32DCE100806426 = {
@@ -298,13 +275,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CE848CF92B398AA50007D8D1 /* camera.mp3 in Resources */,
-				CE848CF52B398AA50007D8D1 /* car.mp3 in Resources */,
-				CE848CF72B398AA50007D8D1 /* bell.mp3 in Resources */,
-				CE848CF62B398AA50007D8D1 /* start.mp3 in Resources */,
 				CE8D55002B32DCE300806426 /* Preview Assets.xcassets in Resources */,
 				CE8D54FD2B32DCE300806426 /* Assets.xcassets in Resources */,
-				CE848CF82B398AA50007D8D1 /* back.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -468,7 +440,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = 5X7NMS6ZZH;
+				DEVELOPMENT_TEAM = LBAQD48WFX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使用します";
@@ -481,7 +453,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tomohiro-jin";
+				PRODUCT_BUNDLE_IDENTIFIER = com.myu.HelloWorld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -497,7 +469,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = 5X7NMS6ZZH;
+				DEVELOPMENT_TEAM = LBAQD48WFX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使用します";
@@ -510,7 +482,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.tomohiro-jin";
+				PRODUCT_BUNDLE_IDENTIFIER = com.myu.HelloWorld;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -20,8 +20,8 @@ var apiEndPoint = "https://drawing-traveler-7a488b236b7c.herokuapp.com/api/v1/im
 //var apiEndPoint = "https://drawing-traveler-server.onrender.com/api/v1/images"
 
 //getメソッド
-func apiImageGetRequest() async throws -> [ApiImage] {
-    try await withCheckedContinuation { continuation in
+func apiImageGetRequest() async -> [ApiImage] {
+    await withCheckedContinuation { continuation in
         AF.request(apiEndPoint, method: .get)
             .response{ response in
                 let decoder = JSONDecoder()
@@ -39,7 +39,7 @@ func apiImageGetRequest() async throws -> [ApiImage] {
 //postメソッド
 func apiImagePostRequest(reqBody : [String: String]) async -> [String: Any] {
     var decodedMessage : [String: Any] = [:]
-    await withCheckedContinuation { continuation in
+    return await withCheckedContinuation { continuation in
         AF.request(apiEndPoint, method: .post, parameters: reqBody)
             .response{ response in
                 let decoder = JSONDecoder()
@@ -53,12 +53,11 @@ func apiImagePostRequest(reqBody : [String: String]) async -> [String: Any] {
                 }
             }
     }
-    return decodedMessage
 }
 //deleteメソッド
 func apiImageDeleteRequest(imageID : Int) async -> [String: Any] {
     var decodedMessage : [String: Any] = [:]
-    await withCheckedContinuation { continuation in
+    return await withCheckedContinuation { continuation in
         AF.request("\(apiEndPoint)/\(imageID)", method: .delete)
             .response{ response in
                 let decoder = JSONDecoder()
@@ -72,12 +71,11 @@ func apiImageDeleteRequest(imageID : Int) async -> [String: Any] {
                 }
             }
     }
-    return decodedMessage
 }
 //updateメソッド
 func apiImageUpdateReqest(reqBody : [String: String],imageID : Int) async -> [String: Any] {
     var decodedMessage : [String: Any] = [:]
-    await withCheckedContinuation { continuation in
+    return await withCheckedContinuation { continuation in
         AF.request("\(apiEndPoint)/\(imageID)", method: .patch, parameters: reqBody)
             .response{ response in
                 let decoder = JSONDecoder()
@@ -91,5 +89,4 @@ func apiImageUpdateReqest(reqBody : [String: String],imageID : Int) async -> [St
                 }
             }
     }
-    return decodedMessage
 }
