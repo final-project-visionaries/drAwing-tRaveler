@@ -29,13 +29,14 @@ const setupServer = () => {
 
   app.use(express.urlencoded({ extended: true }));
   //全てのHttpリクエストに対してcorsを許可する
-  app.use(
-    cors({
-      origin: true,
-      //cookieのやり取りするための設定
-      credentials: true,
-    })
-  );
+  // app.use(
+  //   cors({
+  //     origin: true,
+  //     //cookieのやり取りするための設定
+  //     credentials: true,
+  //   })
+  // );
+  app.use(cors());
 
   app.get('/', (req, res) => {
     res.send('Herokuのアプリ名変更後');
