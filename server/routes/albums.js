@@ -3,11 +3,20 @@ const router = require("express").Router();
 const knex = require("../knexIndex");
 const albumTable = "albums";
 
+// table.double("album_latitude").alter();
+// table.double("album_longitude").alter();
 router.get("/", async (req, res) => {
   console.log("getメソッド届いています");
   try {
     const getAllData = await knex(albumTable)
-      .select("id", "album_name", "album_data", "updated_at")
+      .select(
+        "id",
+        "album_name",
+        "album_data",
+        "album_latitude",
+        "album_longitude",
+        "updated_at"
+      )
       .orderBy("updated_at", "desc")
       .limit(10);
     res.status(200).send(getAllData);
