@@ -17,6 +17,46 @@ const enSalt = () => crypto.randomBytes(6).toString('hex');
 let users = [];
 // Passportの設定
 
+//local-signup
+passport.use(
+  'local-signup',
+  new LocalStrategy(
+    { passReqToCallback: true },
+    async (req, username, password, done) => {
+      // 新規登録時にはユーザーの存在チェックなどを行う
+      const existingUser = users.find((u) => u.user_name === username);
+      if (existingUser) {
+        return done(null, false, { message: 'Username already exists.' });
+      }
+
+      const salt = enSalt();
+      const hashed = enhash(`${salt}${password}`);
+      const createUser = {
+        user_name: username,
+        salt: salt,
+        hashed_password: hashed,
+      };
+
+      const newId = await knex('users')
+        .insert(createUser)
+        .returning('id')
+        .then((elm) => elm[0].id);
+      console.log('newId : ', newId);
+
+      const newUser = {
+        id: newId,
+        user_name: username,
+        salt: salt,
+        hashed_password: password,
+      };
+      //ローカルのusers配列に新規登録したユーザーを追加
+      users.push(newUser);
+      //新しいユーザーをローカルストラテジーに登録
+      return done(null, newUser);
+    }
+  )
+);
+
 //local-login
 passport.use(
   'local-login',
@@ -72,6 +112,7 @@ const authController = {
     }
   },
   passportAuth: passport.authenticate('local-login'),
+  passportSignup: passport.authenticate('local-signup'),
   login: (req, res) => {
     res.json({ message: 'ログイン成功' });
   },
@@ -83,6 +124,9 @@ const authController = {
       res.json({ message: 'Logout successful' });
     });
     res;
+  },
+  signup: (req, res) => {
+    res.json({ message: '新規登録完了' });
   },
 };
 
