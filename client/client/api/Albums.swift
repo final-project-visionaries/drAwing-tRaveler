@@ -2,7 +2,7 @@ import SwiftUI
 import Alamofire
 
 //getリクエストの返り値の型定義
-struct ApiAlbum: Codable {
+struct ApiAlbum: Codable, Equatable {
     var id:Int
     var album_name: String
     var album_data: String

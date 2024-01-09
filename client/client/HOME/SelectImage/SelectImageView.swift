@@ -48,7 +48,7 @@ struct SelectImageView: View {
                        height: UIScreen.main.bounds.size.height * 3 / 5)
             }
             
-            // ミニ画像
+            // mini
             HStack(spacing:0){
                 ForEach(0 ..< imageData.SelectedImages.count, id: \.self){ i in
                     if imageData.SelectedImages[i] == true {
@@ -62,30 +62,30 @@ struct SelectImageView: View {
             .frame(maxWidth: UIScreen.main.bounds.size.width,
                    maxHeight: UIScreen.main.bounds.size.height,
                    alignment: .bottom)
-            .padding(.bottom, 30)
+            .padding(.bottom, 30)// mini
             
-        }
+            if imageData.AllImages == [] {
+                LoadingView()
+            }
+            
+        }//ZStack
         .customBackButton()
         .ignoresSafeArea()
         .toolbar {// 右上のボタン
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
                 HStack{
                     Image(systemName: "checkmark.circle.fill").imageScale(.large).foregroundStyle(.white)
-                    Text("ARをうつす").foregroundStyle(.white).padding(.trailing)
+                    Text("しゃしんをとる").foregroundStyle(.white).padding(.trailing)
                 }
                 .onTapGesture {
                     PlaySound.instance.playSound(filename: "bell")
                     isTakeArPhotoView.toggle()
                 }
                 .navigationDestination(isPresented: $isTakeArPhotoView){TakeArPhotoView()}
-                .background(.green).font(.body.bold()).cornerRadius(5)
+                .background(.blue).font(.body.bold()).cornerRadius(5)
                 .opacity(isDisable ? 0.5 : 1.0)
                 .disabled(isDisable)//無選択では押せない
             }
         }
     }
 }
-//Previewを起こすとXcodeが落ちることがあるので気をつけてください。
-//#Preview(traits: PreviewTrait.landscapeLeft){
-//  SelectImageView().environmentObject(ImageData())
-//}

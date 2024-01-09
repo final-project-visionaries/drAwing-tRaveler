@@ -4,7 +4,7 @@ import AVFoundation
 struct TopView: View {
     @StateObject var imageData = ImageData()
     @State var isLoginView = false
-    @State var isRegisterEntryView = false
+    @State var isRegisterView = false
     
     var body: some View {
         NavigationStack {
@@ -38,9 +38,9 @@ struct TopView: View {
                         }
                         .onTapGesture {
                             PlaySound.instance.playSound(filename: "top")
-                            isRegisterEntryView.toggle()
+                            isRegisterView.toggle()
                         }
-                        .navigationDestination(isPresented: $isRegisterEntryView){RegisterEntryView()}
+                        .navigationDestination(isPresented: $isRegisterView){RegisterMainView()}
                         
                     }
                 }
@@ -49,7 +49,3 @@ struct TopView: View {
         .environmentObject(imageData)
     }
 }
-
-//#Preview(traits: PreviewTrait.landscapeLeft) {
-//    TopView()
-//}
