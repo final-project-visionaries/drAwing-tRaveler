@@ -5,10 +5,10 @@ import Alamofire
 struct ApiAlbum: Codable {
     var id:Int
     var album_name: String
-    var album_data : String
-//    var album_latitude: Double
-//    var album_longitude : Double
-    var updated_at : String
+    var album_data: String
+    var album_latitude:  Double?
+    var album_longitude: Double?
+    var updated_at: String
 }
 
 //ローカルホスト

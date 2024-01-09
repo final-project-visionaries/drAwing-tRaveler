@@ -3,7 +3,7 @@ import AVFoundation
 
 struct TopView: View {
     @StateObject var imageData = ImageData()
-    @State var isHomeView = false
+    @State var isLoginView = false
     @State var isRegisterEntryView = false
     
     var body: some View {
@@ -26,9 +26,9 @@ struct TopView: View {
                         }
                         .onTapGesture {
                             PlaySound.instance.playSound(filename: "top")
-                            isHomeView.toggle()
+                            isLoginView.toggle()
                         }
-                        .navigationDestination(isPresented: $isHomeView){HomeView()}
+                        .navigationDestination(isPresented: $isLoginView){LoginMainView()}
                         
                         VStack{
                             Image("greeting").resizable().scaledToFit()
