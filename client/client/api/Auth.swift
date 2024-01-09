@@ -38,22 +38,31 @@ func apiAuthPostRequest(reqBody : [String: String]) async -> ResponseMessage {
     return message!
 }
 
-//func apiImageGetRequest() async throws -> [ApiImage] {
-//    try await withCheckedContinuation { continuation in
-//        AF.request(apiEndPoint, method: .get)
-//            .response{ response in
-//                let decoder = JSONDecoder()
-//                do {
-//                    let images = try decoder.decode([ApiImage].self, from: response.data!)
-//                    continuation.resume(returning: images)
-//                    print("GET images type : \(type(of:images))")
-//                } catch {
-//                    print("Error decoding JSON: \(error)")
-//                    continuation.resume(throwing: error as! Never)
-//                }
-//            }
-//    }
-//}
+//新規登録用postメソッド
+func apiSignUpPostRequest(reqBody : [String: String]) async -> ResponseMessage {
+    var message: ResponseMessage?
+    do {
+        await withCheckedContinuation { continuation in
+            AF.request("\(apiAuthEndPoint)/signup", method: .post, parameters: reqBody)
+                .response{ response in
+                    print("response : \(response)")
+                    let decoder = JSONDecoder()
+                    do {
+                       message = try decoder.decode(ResponseMessage.self, from: response.data!)
+                        continuation.resume(returning: message!)
+                    } catch {
+                        message = ResponseMessage(message: "UnAuthorize")
+                        continuation.resume(returning: message!)
+                    }
+                }
+        }
+    } catch {
+        print("Error connecting to the server: \(error)")
+        // ここで元のページに戻るロジックを実装します。
+        // 具体的な実装は、あなたのアプリのナビゲーションの設定によります。
+    }
+    return message!
+}
 
 
 

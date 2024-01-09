@@ -9,7 +9,9 @@ import SwiftUI
 
 struct RegisterEntryView: View {
     var body: some View {
-        Text("新規登録確認前")
+        NavigationLink(destination: RegisterMainView()){
+            Text("新規登録する")
+        }
     }
 }
 
