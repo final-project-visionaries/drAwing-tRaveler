@@ -74,7 +74,7 @@ class ImageData: ObservableObject {
         UIGraphicsEndImageContext()
         let imageDataFromBack = newImage?.jpegData(compressionQuality: 1.0)
         let base64String = imageDataFromBack?.base64EncodedString()
-        return base64String ?? "post error"
+        return base64String ?? "resize error"
       }
 }
 

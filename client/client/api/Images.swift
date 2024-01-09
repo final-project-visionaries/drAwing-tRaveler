@@ -2,11 +2,11 @@ import SwiftUI
 import Alamofire
 
 //getリクエストの返り値の型定義
-struct ApiImage: Codable {
+struct ApiImage: Codable, Equatable {
     var id:Int
-    var image_name: String
-    var image_data : String
-    var updated_at : String
+    var image_name:String
+    var image_data:String
+    var updated_at:String
 }
 //post・patch・deleteリクエストの返り値の型定義
 struct ResponseMessage: Codable {
