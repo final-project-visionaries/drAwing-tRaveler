@@ -10,6 +10,7 @@ struct CustomBackButton: ViewModifier {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button(
                         action: {
+                            PlaySound.instance.playSound(filename: "top")
                             dismiss()
                         }, label: {
                             Image(systemName: "arrow.backward")

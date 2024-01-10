@@ -3,11 +3,11 @@ import SwiftUI
 struct SelectImageView: View {
     @EnvironmentObject var imageData : ImageData
     @State private var isDisable: Bool = true
-    @State var isTakeArPhotoView = false
+    @State var isArSplash = false
     
     var body: some View {
         ZStack{
-            Image("sky").edgesIgnoringSafeArea(.all) //全体背景
+            Image("sky").ignoresSafeArea()
             
             Rectangle()//スクロール背景:スマホサイズに合わせて変化
                 .fill(Color.black.opacity(0.1))
@@ -21,7 +21,7 @@ struct SelectImageView: View {
                             Image(uiImage: imageData.AllUIImages[i]).resizable().scaledToFit()
                                 .frame(height: UIScreen.main.bounds.size.height * 2 / 5)
                                 .onTapGesture {
-                                    PlaySound.instance.playSound(filename: "car")
+                                    PlaySound.instance.playSound(filename: "selectImage")
                                     imageData.SelectedImages[i].toggle()
                                     print("選択された画像 : \(i), トータル : \(imageData.SelectedImages.filter{ $0 == true }.count)枚")
                                     imageData.SetArModels()
@@ -74,15 +74,15 @@ struct SelectImageView: View {
         .toolbar {// 右上のボタン
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 HStack{
-                    Image(systemName: "checkmark.circle.fill").imageScale(.large).foregroundStyle(.white)
-                    Text("しゃしんをとる").foregroundStyle(.white).padding(.trailing)
+                    Image("arphoto").resizable().frame(width: 150)
                 }
                 .onTapGesture {
-                    PlaySound.instance.playSound(filename: "bell")
-                    isTakeArPhotoView.toggle()
+                    PlaySound.instance.playSound(filename: "top")
+                    isArSplash.toggle()
                 }
-                .navigationDestination(isPresented: $isTakeArPhotoView){TakeArPhotoView()}
-                .background(.blue).font(.body.bold()).cornerRadius(5)
+                .navigationDestination(isPresented: $isArSplash){ArSplash()}
+                .background(Color(UIColor(red: 255/255, green: 243/255, blue: 210/255, alpha: 1)))
+                .font(.body.bold()).cornerRadius(5)
                 .opacity(isDisable ? 0.5 : 1.0)
                 .disabled(isDisable)//無選択では押せない
             }

@@ -23,7 +23,7 @@ struct HomeView: View {
                             .resizable().scaledToFit().frame(width: 300, height: 30)
                     }
                     .onTapGesture {
-                        PlaySound.instance.playSound(filename: "bell")
+                        PlaySound.instance.playSound(filename: "top")
                         isDrawingView.toggle()
                     }
                     .navigationDestination(isPresented: $isDrawingView){DrawingView()}
@@ -35,7 +35,7 @@ struct HomeView: View {
                             .resizable().scaledToFit().frame(width: 300, height: 30)
                     }
                     .onTapGesture {
-                        PlaySound.instance.playSound(filename: "bell")
+                        PlaySound.instance.playSound(filename: "top")
                         isAlbumView.toggle()
                     }
                     .navigationDestination(isPresented: $isAlbumView){AlbumView()}
@@ -49,7 +49,7 @@ struct HomeView: View {
                             .resizable().scaledToFit().frame(width: 300, height: 30)
                     }
                     .onTapGesture {
-                        PlaySound.instance.playSound(filename: "bell")
+                        PlaySound.instance.playSound(filename: "top")
                         isTakePhotoView.toggle()
                     }
                     .navigationDestination(isPresented: $isTakePhotoView){TakePhotoView()}
@@ -61,7 +61,7 @@ struct HomeView: View {
                             .resizable().scaledToFit().frame(width: 300, height: 30)
                     }
                     .onTapGesture {
-                        PlaySound.instance.playSound(filename: "bell")
+                        PlaySound.instance.playSound(filename: "top")
                         isSelectImageView.toggle()
                     }
                     .navigationDestination(isPresented: $isSelectImageView){SelectImageView()}

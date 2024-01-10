@@ -27,7 +27,6 @@ struct DrawingView: View {
             }
         }
         .customBackButton()
-        .ignoresSafeArea()
         .toolbar { // 右上のボタン
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 VStack {
@@ -36,10 +35,11 @@ struct DrawingView: View {
                         ColorPicker("Color", selection: $selectedColor).labelsHidden()
                         Button(action: {
                             canvasView.drawing = PKDrawing()
-                        }) {Text("クリア").foregroundColor(.red)}
+                        }) {Text("えをけす").foregroundColor(.red)}
                         Button(action: {
                             PKCanvasViewToUIImage()
-                        }) {Text("絵を保存")}
+                            PlaySound.instance.playSound(filename: "camera")
+                        }) {Text("えをほぞん")}
                     }
                     .padding(20)
                     Spacer()
@@ -65,6 +65,7 @@ struct DrawingView_: UIViewRepresentable {
     @Binding var selectedColor: Color
     func makeUIView(context: Context) -> PKCanvasView {
         canvasView.drawingPolicy = .anyInput
+        canvasView.backgroundColor = UIColor(red: 255/255, green: 243/255, blue: 210/255, alpha: 1)
         canvasView.tool = PKInkingTool(.pen, color: .black, width: 3.0)
         return canvasView
     }
@@ -72,7 +73,3 @@ struct DrawingView_: UIViewRepresentable {
         uiView.tool = PKInkingTool(.pen, color: UIColor(selectedColor), width: 3.0)
     }
 }
-
-//#Preview {
-//    DrawingView()
-//}

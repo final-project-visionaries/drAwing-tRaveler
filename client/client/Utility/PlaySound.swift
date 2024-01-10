@@ -12,6 +12,7 @@ class PlayBGM{
             try audioSession.setCategory(AVAudioSession.Category.ambient)
             try audioSession.setActive(true)
             player = try AVAudioPlayer(data: NSDataAsset(name: filename)!.data)
+            player.volume = 0.2
             player.play()
         } catch let error {
             print(error)

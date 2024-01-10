@@ -19,7 +19,7 @@ struct AlbumView: View {
                         }
                         .onTapGesture {
                             imageData.SelectedAlbums[i].toggle()
-                            PlaySound.instance.playSound(filename: "car")
+                            PlaySound.instance.playSound(filename: "selectImage")
                             pin = CLLocationCoordinate2D( // データがなければ大阪駅の緯度経度を代入
                                 latitude:  imageData.AllAlbums[i].album_latitude ?? 34.7022887,
                                 longitude: imageData.AllAlbums[i].album_longitude ?? 135.4953509)
@@ -27,11 +27,15 @@ struct AlbumView: View {
                         }
                         .sheet(isPresented: $imageData.SelectedAlbums[i]){
                             ZStack{
-                                Image(uiImage: imageData.AllUIAlbums[i]).resizable().scaledToFit()
-                                    .frame(maxWidth: UIScreen.main.bounds.size.width * 4 / 5,
-                                           maxHeight: UIScreen.main.bounds.size.height  * 4 / 5,
-                                           alignment: .leading)
-                                VStack{//拡大画像のシートから戻るための矢印ボタン
+                                HStack{
+                                    Image(uiImage: imageData.AllUIAlbums[i]).resizable().scaledToFit()
+                                        .frame(maxWidth: UIScreen.main.bounds.size.width * 0.7,
+                                               maxHeight: UIScreen.main.bounds.size.height * 0.7,
+                                               alignment: .leading)
+                                    Spacer()
+                                }
+                                
+                                VStack{
                                     HStack{
                                         Button(
                                             action: {
@@ -42,17 +46,17 @@ struct AlbumView: View {
                                         Spacer()
                                     }
                                     Spacer()
-                                }
+                                } // 拡大画像のシートから戻るための矢印ボタン
                                 
                                 VStack{ Spacer()
                                     HStack{ Spacer()
                                         Map(position: $pos){ Marker("", coordinate: pin).tint(.red) }
-                                            .frame(width: 200, height: 200)
+                                            .frame(maxWidth: UIScreen.main.bounds.size.width * 0.2)
                                             .clipShape(Circle())
                                     }
-                                }
+                                } // circle map
                                 
-                            }
+                            }.background(Color.orange)
                         }
                     }
                 }
@@ -62,11 +66,9 @@ struct AlbumView: View {
                 LoadingView()
             }
             
-        } // ZStack
-        .background(
-            RadialGradient(gradient: Gradient(colors: [.yellow, .green]), center: .center, startRadius: 1, endRadius: 300)
-        )
-        .navigationTitle("🍎 アルバム")
+        }
+        .background(Color(UIColor(red: 255/255, green: 243/255, blue: 210/255, alpha: 1)))
+        .navigationTitle("🍎 あるばむ")
         .customBackButton()
     }
 }
