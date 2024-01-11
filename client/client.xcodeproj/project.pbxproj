@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE0010802B4FE2A900E0BA67 /* ArSplash.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE00107F2B4FE2A900E0BA67 /* ArSplash.swift */; };
 		CE252F392B3C7463009CBD15 /* Auth.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE252F382B3C7463009CBD15 /* Auth.swift */; };
 		CE5E89F22B4D529700578611 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE5E89F12B4D529700578611 /* LoadingView.swift */; };
 		CE848CDF2B3967000007D8D1 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE848CDE2B3967000007D8D1 /* SplashView.swift */; };
@@ -34,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE00107F2B4FE2A900E0BA67 /* ArSplash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArSplash.swift; sourceTree = "<group>"; };
 		CE252F382B3C7463009CBD15 /* Auth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Auth.swift; sourceTree = "<group>"; };
 		CE5E89F12B4D529700578611 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		CE848CDE2B3967000007D8D1 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				CE8D55192B32EA4100806426 /* TakeArPhotoView.swift */,
+				CE00107F2B4FE2A900E0BA67 /* ArSplash.swift */,
 			);
 			path = TakeArPhoto;
 			sourceTree = "<group>";
@@ -293,6 +296,7 @@
 				CE8D55162B32E9B800806426 /* RegisterMainView.swift in Sources */,
 				CE848CE52B39676E0007D8D1 /* PlaySound.swift in Sources */,
 				CE848CDF2B3967000007D8D1 /* SplashView.swift in Sources */,
+				CE0010802B4FE2A900E0BA67 /* ArSplash.swift in Sources */,
 				CE5E89F22B4D529700578611 /* LoadingView.swift in Sources */,
 				CE8D55182B32EA1B00806426 /* SelectImageView.swift in Sources */,
 				CE8D55102B32E8FE00806426 /* LoginEntryView.swift in Sources */,
@@ -451,7 +455,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -480,7 +485,8 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

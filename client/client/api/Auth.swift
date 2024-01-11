@@ -47,8 +47,3 @@ func apiSignUpPostRequest(reqBody : [String: String]) async -> ResponseMessage {
             }
     }
 }
-
-
-
-
-

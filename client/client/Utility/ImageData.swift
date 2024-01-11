@@ -61,7 +61,7 @@ class ImageData: ObservableObject {
     
     // UIImage -> resize -> compress -> encode -> base64
     func resizeImageToBase64(image: UIImage) -> String {
-        let targetSize = CGSize(width: 200, height: 200)
+        let targetSize = CGSize(width: 2000, height: 2000)
         let size = image.size
         let widthRatio = targetSize.width / size.width
         let heightRatio = targetSize.height / size.height
