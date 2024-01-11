@@ -1,22 +1,23 @@
-const express = require('express');
+const express = require("express");
 //routesフォルダのindex.jsファイルを呼び出し
-const apiRoutes = require('./routes');
-const cors = require('cors');
-const cookieParser = require('cookie-parser');
-const passport = require('passport');
-const session = require('express-session');
+const apiRoutes = require("./routes");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const passport = require("passport");
+const session = require("express-session");
+const bodyParser = require("body-parser");
 
 const setupServer = () => {
   //expressをインスタンス化
   const app = express();
   //JSON形式として認識する
-  app.use(express.json());
+  app.use(express.json({ limit: "5mb" }));
 
   app.use(cookieParser());
 
   app.use(
     session({
-      secret: 'your-secret-key2',
+      secret: "your-secret-key2",
       resave: false,
       saveUninitialized: true,
       // cookie: {
@@ -26,6 +27,9 @@ const setupServer = () => {
   );
   app.use(passport.initialize());
   app.use(passport.session());
+
+  app.use(bodyParser.json({ limit: "5mb" }));
+  app.use(bodyParser.urlencoded({ limit: "5mb", extended: true }));
 
   app.use(express.urlencoded({ extended: true }));
   //全てのHttpリクエストに対してcorsを許可する
@@ -38,12 +42,12 @@ const setupServer = () => {
   );
   // app.use(cors());
 
-  app.get('/', (req, res) => {
-    res.send('Herokuのアプリ名変更後');
+  app.get("/", (req, res) => {
+    res.send("Herokuのアプリ名変更後");
   });
 
   //"/api/v1"に飛んできたらapiRoutesファイルに飛んでいく
-  app.use('/api/v1', apiRoutes);
+  app.use("/api/v1", apiRoutes);
   return app;
 };
 module.exports = { setupServer };
