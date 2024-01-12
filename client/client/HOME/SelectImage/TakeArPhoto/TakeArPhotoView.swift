@@ -5,7 +5,7 @@ import ARKit
 struct TakeArPhotoView : View {
     @EnvironmentObject var imageData : ImageData
     @State private var isPlacing = false
-    @State private var Selected: UIImage? = nil
+    @State private var Selected:   UIImage? = nil
     @State private var Confirmed1: UIImage? = nil
     @State private var Confirmed2: UIImage? = nil
     @State private var Confirmed3: UIImage? = nil
@@ -13,8 +13,11 @@ struct TakeArPhotoView : View {
     
     var body: some View {
         ZStack{
-            ARViewContainer_(confirmed1: self.$Confirmed1, confirmed2: self.$Confirmed2, confirmed3: self.$Confirmed3, confirmed4: self.$Confirmed4)
-            if self.isPlacing { // 選択モードの表示内容
+            ARViewContainer(confirmed1: self.$Confirmed1, confirmed2: self.$Confirmed2,
+                            confirmed3: self.$Confirmed3, confirmed4: self.$Confirmed4)
+            .ignoresSafeArea()
+
+            if self.isPlacing { // 配置モード
                 VStack{ Spacer()
                     HStack{
                         Button(action: { // Cancel Button
@@ -25,60 +28,77 @@ struct TakeArPhotoView : View {
                             Image(systemName: "xmark").frame(width: 60, height: 60).font(.title)
                                 .background(.white.opacity(0.35)).cornerRadius(30).padding(5)
                         })
-                        
+                    }
+                } // cancel
+                VStack{
+                    HStack{
                         Button(action: { // Confirm1 Button 左上
-                            PlaySound.instance.playSound(filename: "bell")
+                            PlaySound.instance.playSound(filename: "top")
                             self.Confirmed1 = self.Selected
                             self.isPlacing.toggle()
                             self.Selected = nil
                         }, label: {
-                            Image(systemName: "checkmark").resizable().frame(width: 120, height: 120).font(.title)
-                                .background(.white.opacity(0.75)).cornerRadius(30).padding(5)
+                            Image(systemName: "square.dashed").resizable().frame(width: 120, height: 120).font(.title).opacity(0.5)
+                                .background(.white.opacity(0.25)).cornerRadius(30).padding(5)
                         })
-                        
+                        Spacer()
+                    }
+                    Spacer()
+                } // left-up
+                VStack{ Spacer()
+                    HStack{
                         Button(action: { // Confirm2 Button 左下
-                            PlaySound.instance.playSound(filename: "bell")
+                            PlaySound.instance.playSound(filename: "top")
                             self.Confirmed2 = self.Selected
                             self.isPlacing.toggle()
                             self.Selected = nil
                         }, label: {
-                            Image(systemName: "square.dashed").resizable().frame(width: 120, height: 120).font(.title)
-                                .background(.white.opacity(0.75)).cornerRadius(30).padding(5)
+                            Image(systemName: "square.dashed").resizable().frame(width: 120, height: 120).font(.title).opacity(0.5)
+                                .background(.white.opacity(0.25)).cornerRadius(30).padding(5)
                         })
-                        
+                        Spacer()
+                    }
+                } // left-down
+                VStack{
+                    HStack{ Spacer()
                         Button(action: { // Confirm3 Button 右上
-                            PlaySound.instance.playSound(filename: "bell")
+                            PlaySound.instance.playSound(filename: "top")
                             self.Confirmed3 = self.Selected
                             self.isPlacing.toggle()
                             self.Selected = nil
                         }, label: {
-                            Image(systemName: "arkit").resizable().frame(width: 120, height: 120).font(.title)
-                                .background(.white.opacity(0.75)).cornerRadius(30).padding(5)
+                            Image(systemName: "square.dashed").resizable().frame(width: 120, height: 120).font(.title).opacity(0.5)
+                                .background(.white.opacity(0.25)).cornerRadius(30).padding(5)
                         })
-                        
+                    }
+                    Spacer()
+                } // right-up
+                VStack{ Spacer()
+                    HStack{ Spacer()
                         Button(action: { // Confirm4 Button 右下
-                            PlaySound.instance.playSound(filename: "bell")
+                            PlaySound.instance.playSound(filename: "top")
                             self.Confirmed4 = self.Selected
                             self.isPlacing.toggle()
                             self.Selected = nil
                         }, label: {
-                            Image(systemName: "arrowshape.turn.up.left").resizable().frame(width: 120, height: 120).font(.title)
-                                .background(.white.opacity(0.75)).cornerRadius(30).padding(5)
+                            Image(systemName: "square.dashed").resizable().frame(width: 120, height: 120).font(.title).opacity(0.5)
+                                .background(.white.opacity(0.25)).cornerRadius(30).padding(5)
                         })
                     }
-                }
-                Image(uiImage:self.Selected ?? UIImage()).resizable().scaledToFit().frame(height:80).opacity(0.5)//透明の画像
-            } else { // 配置モードの表示内容
+                } // right-down
+                Image(uiImage:self.Selected ?? UIImage()).resizable().scaledToFit().frame(height:80).opacity(0.5) // center
+            } else { // 選択モード
                 VStack{ Spacer()
                     ScrollView(.horizontal, showsIndicators:false){
                         HStack(spacing: 20){
                             ForEach(0 ..< imageData.ArModels.count, id: \.self){i in
                                 Button {
-                                    PlaySound.instance.playSound(filename: "car")
+                                    PlaySound.instance.playSound(filename: "selectImage")
                                     self.Selected = imageData.ArModels[i]
                                     self.isPlacing.toggle()
                                 } label: {
-                                    Image(uiImage: imageData.ArModels[i]).resizable().frame(height: 80)
+                                    Image(uiImage: imageData.ArModels[i]).resizable()
+                                        .scaledToFill().frame(maxWidth: 80 ,maxHeight: 80)
                                         .aspectRatio(1/1, contentMode: .fit).background(.white).cornerRadius(12)
                                 }
                             }
@@ -86,11 +106,10 @@ struct TakeArPhotoView : View {
                     }
                     .padding(10).background(.black.opacity(0.5))
                 }
-            }
-            VStack{ Spacer()
-                HStack{ Spacer()
-                    Button {//Camera Button
-                        ARVariables_.arView.snapshot(saveToHDR: false) { (image) in
+                
+                HStack{ Spacer() //Camera Button
+                    Button {
+                        ARVariables.arView.snapshot(saveToHDR: false) { (image) in
                             let compressedImage = UIImage(data: (image?.pngData())!)
                             var sendData: [String:Any] = [:]
                             sendData["album_name"] = "From AR_check"
@@ -115,24 +134,17 @@ struct TakeArPhotoView : View {
     }
 }
 
-struct ARVariables_{ static var arView: ARView! }
+struct ARVariables{ static var arView: ARView! }
 
-struct ARViewContainer_: UIViewRepresentable {
+struct ARViewContainer: UIViewRepresentable {
     @Binding var confirmed1: UIImage?
     @Binding var confirmed2: UIImage?
     @Binding var confirmed3: UIImage?
     @Binding var confirmed4: UIImage?
     
     func makeUIView(context: Context) -> ARView {
-        ARVariables_.arView = ARView(frame: .zero)
-        let config = ARWorldTrackingConfiguration()
-        config.planeDetection = [.horizontal, .vertical]
-        config.environmentTexturing = .automatic
-        if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
-            config.sceneReconstruction = .mesh
-        }
-        ARVariables_.arView.session.run(config)
-        return ARVariables_.arView
+        ARVariables.arView = ARView(frame: .zero)
+        return ARVariables.arView
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {

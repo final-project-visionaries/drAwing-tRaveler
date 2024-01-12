@@ -10,20 +10,23 @@ struct LoginMainView: View {
     
     var body: some View {
         ZStack{
-            LinearGradient(gradient: Gradient(colors: [.white, .yellow]), startPoint: .top, endPoint: .bottom)
-                .ignoresSafeArea()
+            Image("sky3").resizable()
+                .scaledToFit()
+                .frame(width: 1400, height: 600)
+                .clipShape(Rectangle())
             
             VStack(spacing: 15){
+                Image("phone2momdad").resizable().frame(width: 600, height: 60).aspectRatio(contentMode: .fit)
                 Text("ユーザー名とパスワードを入力してください").bold().foregroundStyle(.black)
                 TextField("ユーザー名", text: $username)
                     .frame(width: 300).padding(10).background(Color(UIColor.systemGray4))
-                    .cornerRadius(20).shadow(color: .gray, radius: 10)
+                    .cornerRadius(10).shadow(color: .gray, radius: 10)
                     .onChange(of: username) {
                         isValidUsername = username.isAlphanumeric && !username.isEmpty ? true : false
                     }
                 SecureField("パスワード", text: $password)
                     .frame(width: 300).padding(10).background(Color(UIColor.systemGray4))
-                    .cornerRadius(20).shadow(color: .gray, radius: 10)
+                    .cornerRadius(10).shadow(color: .gray, radius: 10)
                     .onChange(of: password) {
                         isValidPassword = password.isAlphanumeric && !password.isEmpty ? true : false
                     }
@@ -48,6 +51,10 @@ struct LoginMainView: View {
                     .cornerRadius(10, antialiased: true)
                     .disabled(!isValidUsername || !isValidPassword)
                 
+            }
+            .onAppear{
+                username = ""
+                password = ""
             }
             .customBackButton()
             .navigationDestination(isPresented: $isLoggedIn){ HomeView() }

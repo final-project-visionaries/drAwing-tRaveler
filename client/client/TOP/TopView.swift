@@ -15,7 +15,8 @@ struct TopView: View {
                     .clipShape(Rectangle())
                 
                 VStack(spacing:50){
-                    Image("appname4")
+                    Image("appname_new").resizable().scaledToFit()
+                        .frame(maxWidth: UIScreen.main.bounds.size.width)
                     HStack(spacing:90){
                         
                         VStack{

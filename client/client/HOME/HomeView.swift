@@ -23,10 +23,10 @@ struct HomeView: View {
                             .resizable().scaledToFit().frame(width: 300, height: 30)
                     }
                     .onTapGesture {
-                        PlaySound.instance.playSound(filename: "bell")
+                        PlaySound.instance.playSound(filename: "top")
                         isDrawingView.toggle()
                     }
-                    .navigationDestination(isPresented: $isDrawingView){DrawingView()}
+                    .sheet(isPresented: $isDrawingView){DrawingView(isActive: $isDrawingView)}
                     
                     VStack{
                         Image("album")
@@ -35,7 +35,7 @@ struct HomeView: View {
                             .resizable().scaledToFit().frame(width: 300, height: 30)
                     }
                     .onTapGesture {
-                        PlaySound.instance.playSound(filename: "bell")
+                        PlaySound.instance.playSound(filename: "top")
                         isAlbumView.toggle()
                     }
                     .navigationDestination(isPresented: $isAlbumView){AlbumView()}
@@ -49,7 +49,7 @@ struct HomeView: View {
                             .resizable().scaledToFit().frame(width: 300, height: 30)
                     }
                     .onTapGesture {
-                        PlaySound.instance.playSound(filename: "bell")
+                        PlaySound.instance.playSound(filename: "top")
                         isTakePhotoView.toggle()
                     }
                     .navigationDestination(isPresented: $isTakePhotoView){TakePhotoView()}
@@ -61,21 +61,17 @@ struct HomeView: View {
                             .resizable().scaledToFit().frame(width: 300, height: 30)
                     }
                     .onTapGesture {
-                        PlaySound.instance.playSound(filename: "bell")
+                        PlaySound.instance.playSound(filename: "top")
                         isSelectImageView.toggle()
                     }
                     .navigationDestination(isPresented: $isSelectImageView){SelectImageView()}
                 }
             }
         }
-        .customBackButton()
+        .customBackButton2() // logout button
         .onAppear{
             imageData.SetImages() // image tableのデータを取得、Imageデータのステート変数を初期化
             imageData.SetAlbums() // album tableのデータを取得、Albumデータのステート変数を初期化
         }
     }
 }
-
-//#Preview(traits: PreviewTrait.landscapeLeft){
-//  HomeView().environmentObject(ImageData())
-//}
