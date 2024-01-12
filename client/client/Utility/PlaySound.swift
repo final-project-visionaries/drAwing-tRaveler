@@ -13,6 +13,7 @@ class PlayBGM{
             try audioSession.setActive(true)
             player = try AVAudioPlayer(data: NSDataAsset(name: filename)!.data)
             player.volume = 0.2
+            player.numberOfLoops = -1
             player.play()
         } catch let error {
             print(error)

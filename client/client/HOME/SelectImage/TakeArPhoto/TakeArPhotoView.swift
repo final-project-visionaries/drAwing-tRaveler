@@ -4,23 +4,29 @@ import ARKit
 
 struct TakeArPhotoView : View {
     @EnvironmentObject var imageData : ImageData
+    @EnvironmentObject var locationManager : LocationManager
     @State private var isPlacing = false
     @State private var Selected:   UIImage? = nil
     @State private var Confirmed1: UIImage? = nil
     @State private var Confirmed2: UIImage? = nil
     @State private var Confirmed3: UIImage? = nil
     @State private var Confirmed4: UIImage? = nil
+    @State private var isSaved = false
+    @State private var count = 2
     
     var body: some View {
         ZStack{
             ARViewContainer(confirmed1: self.$Confirmed1, confirmed2: self.$Confirmed2,
                             confirmed3: self.$Confirmed3, confirmed4: self.$Confirmed4)
             .ignoresSafeArea()
+            .onDisappear{
+                ARVariables.dismantleUIView(ARVariables.arView, coordinator: ())//ARセッション停止
+            }
 
             if self.isPlacing { // 配置モード
                 VStack{ Spacer()
                     HStack{
-                        Button(action: { // Cancel Button
+                        Button(action: {
                             PlaySound.instance.playSound(filename: "top")
                             self.isPlacing.toggle()
                             self.Selected = nil
@@ -29,10 +35,10 @@ struct TakeArPhotoView : View {
                                 .background(.white.opacity(0.35)).cornerRadius(30).padding(5)
                         })
                     }
-                } // cancel
+                }
                 VStack{
                     HStack{
-                        Button(action: { // Confirm1 Button 左上
+                        Button(action: {
                             PlaySound.instance.playSound(filename: "top")
                             self.Confirmed1 = self.Selected
                             self.isPlacing.toggle()
@@ -44,10 +50,10 @@ struct TakeArPhotoView : View {
                         Spacer()
                     }
                     Spacer()
-                } // left-up
+                }
                 VStack{ Spacer()
                     HStack{
-                        Button(action: { // Confirm2 Button 左下
+                        Button(action: {
                             PlaySound.instance.playSound(filename: "top")
                             self.Confirmed2 = self.Selected
                             self.isPlacing.toggle()
@@ -58,10 +64,10 @@ struct TakeArPhotoView : View {
                         })
                         Spacer()
                     }
-                } // left-down
+                }
                 VStack{
                     HStack{ Spacer()
-                        Button(action: { // Confirm3 Button 右上
+                        Button(action: {
                             PlaySound.instance.playSound(filename: "top")
                             self.Confirmed3 = self.Selected
                             self.isPlacing.toggle()
@@ -72,10 +78,10 @@ struct TakeArPhotoView : View {
                         })
                     }
                     Spacer()
-                } // right-up
+                }
                 VStack{ Spacer()
                     HStack{ Spacer()
-                        Button(action: { // Confirm4 Button 右下
+                        Button(action: {
                             PlaySound.instance.playSound(filename: "top")
                             self.Confirmed4 = self.Selected
                             self.isPlacing.toggle()
@@ -85,7 +91,7 @@ struct TakeArPhotoView : View {
                                 .background(.white.opacity(0.25)).cornerRadius(30).padding(5)
                         })
                     }
-                } // right-down
+                }
                 Image(uiImage:self.Selected ?? UIImage()).resizable().scaledToFit().frame(height:80).opacity(0.5) // center
             } else { // 選択モード
                 VStack{ Spacer()
@@ -106,22 +112,34 @@ struct TakeArPhotoView : View {
                     }
                     .padding(10).background(.black.opacity(0.5))
                 }
-                
-                HStack{ Spacer() //Camera Button
+                HStack{ Spacer()
                     Button {
                         ARVariables.arView.snapshot(saveToHDR: false) { (image) in
                             let compressedImage = UIImage(data: (image?.pngData())!)
                             var sendData: [String:Any] = [:]
                             sendData["album_name"] = "From AR_check"
                             sendData["album_data"] = imageData.resizeImageToBase64(image: compressedImage ?? UIImage())
-                            sendData["album_latitude"]  = 35.1706431  // Dummy Data
-                            sendData["album_longitude"] = 136.8816945 // Dummy Data
+                            if let location = locationManager.userLocation {
+                                sendData["album_latitude"]  = location.coordinate.latitude
+                                sendData["album_longitude"] = location.coordinate.longitude
+                            } else {
+                                sendData["album_latitude"]  =  35.6809591 // Default
+                                sendData["album_longitude"] = 139.7673068 // Default
+                            }
                             Task {
                                 let res = await apiAlbumPostRequest(reqBody: sendData)
                                 print("AR POST res : \(res)")
                             }
                         }
                         PlaySound.instance.playSound(filename: "camera")
+                        isSaved.toggle()
+                        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {timer in
+                            self.count -= 1
+                            if self.count == 0 {
+                                timer.invalidate()
+                                self.isSaved.toggle()
+                            }
+                        }
                     } label: {
                         Image(systemName: "camera")
                             .frame(width:60, height:60).font(.title)
@@ -129,12 +147,30 @@ struct TakeArPhotoView : View {
                     }
                 }
             }
+            
+            if isSaved == true {
+                ZStack{
+                    Rectangle()
+                        .ignoresSafeArea()
+                        .foregroundColor(.black).opacity(0.5)
+                        .frame(maxWidth: UIScreen.main.bounds.size.width, maxHeight: UIScreen.main.bounds.size.height)
+                    Text("しゃしんをほぞんしたよ！").foregroundStyle(.white).font(.title)
+                }
+            }
         }
         .customBackButton()
+        .onAppear {
+            locationManager.setupLocationManager()
+        }
     }
 }
 
-struct ARVariables{ static var arView: ARView! }
+struct ARVariables{
+    static var arView: ARView!
+    static func dismantleUIView(_ uiView: ARView, coordinator: ()) {
+        uiView.session.pause()
+    }
+}
 
 struct ARViewContainer: UIViewRepresentable {
     @Binding var confirmed1: UIImage?
@@ -148,10 +184,12 @@ struct ARViewContainer: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
+        let modelEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.3, height: 0.3, depth: 0.1))
+        // let modelEntity = ModelEntity(mesh:.generateSphere(radius: 0.3))
+        modelEntity.generateCollisionShapes(recursive: true)
+        
         if let uiImage = self.confirmed1 {
-            let modelEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.3, height: 0.3, depth: 0.1))
-            modelEntity.generateCollisionShapes(recursive: true)
-            modelEntity.model?.materials = [createTexture_(drawing: uiImage.cgImage)]
+            modelEntity.model?.materials = [createTexture(drawing: uiImage.cgImage)]
             let anchorEntity1 = AnchorEntity(world: SIMD3(x:-0.65,y:0.2,z:-1.3))
             anchorEntity1.addChild(modelEntity.clone(recursive: true))
             uiView.scene.addAnchor(anchorEntity1)
@@ -160,9 +198,7 @@ struct ARViewContainer: UIViewRepresentable {
             }
         }
         if let uiImage = self.confirmed2 {
-            let modelEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.3, height: 0.3, depth: 0.1))
-            modelEntity.generateCollisionShapes(recursive: true)
-            modelEntity.model?.materials = [createTexture_(drawing: uiImage.cgImage)]
+            modelEntity.model?.materials = [createTexture(drawing: uiImage.cgImage)]
             let anchorEntity2 = AnchorEntity(world: SIMD3(x:-0.65,y:-0.2,z:-1.3))
             anchorEntity2.addChild(modelEntity.clone(recursive: true))
             uiView.scene.addAnchor(anchorEntity2)
@@ -171,9 +207,7 @@ struct ARViewContainer: UIViewRepresentable {
             }
         }
         if let uiImage = self.confirmed3 {
-            let modelEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.3, height: 0.3, depth: 0.1))
-            modelEntity.generateCollisionShapes(recursive: true)
-            modelEntity.model?.materials = [createTexture_(drawing: uiImage.cgImage)]
+            modelEntity.model?.materials = [createTexture(drawing: uiImage.cgImage)]
             let anchorEntity3 = AnchorEntity(world: SIMD3(x:0.65,y:0.2,z:-1.3))
             anchorEntity3.addChild(modelEntity.clone(recursive: true))
             uiView.scene.addAnchor(anchorEntity3)
@@ -182,10 +216,7 @@ struct ARViewContainer: UIViewRepresentable {
             }
         }
         if let uiImage = self.confirmed4 {
-            let modelEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.3, height: 0.3, depth: 0.1))
-            // let modelEntity = ModelEntity(mesh:.generateSphere(radius: 0.3))
-            modelEntity.generateCollisionShapes(recursive: true)
-            modelEntity.model?.materials = [createTexture_(drawing: uiImage.cgImage)]
+            modelEntity.model?.materials = [createTexture(drawing: uiImage.cgImage)]
             let anchorEntity4 = AnchorEntity(world: SIMD3(x:0.65,y:-0.2,z:-1.3))
             anchorEntity4.addChild(modelEntity.clone(recursive: true))
             uiView.scene.addAnchor(anchorEntity4)
@@ -195,7 +226,7 @@ struct ARViewContainer: UIViewRepresentable {
         }
     }
     //ARモデルの表面のテクスチャを描画する関数
-    func createTexture_(drawing: CGImage?) -> SimpleMaterial{
+    func createTexture(drawing: CGImage?) -> SimpleMaterial{
         if drawing == nil {
             return SimpleMaterial(color: .white, roughness: .float(0), isMetallic: false)
         } else {

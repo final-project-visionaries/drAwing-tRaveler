@@ -13,10 +13,12 @@ struct AlbumView: View {
         ZStack{
             Image("sky4").resizable()
                 .scaledToFit()
-                .frame(width: UIScreen.main.bounds.size.width*0.9, height: UIScreen.main.bounds.size.height*0.9)
+                .frame(width: 1400, height: 600)
                 .clipShape(Rectangle())
             
             ScrollView(showsIndicators: false) {
+                Image("albumtag").resizable().aspectRatio(contentMode: .fit).frame(width: 150)
+                
                 LazyVGrid(columns: columns){
                     ForEach(0..<imageData.AllAlbums.count, id: \.self){ i in
                         VStack{
@@ -25,8 +27,8 @@ struct AlbumView: View {
                         .onTapGesture {
                             imageData.SelectedAlbums[i].toggle()
                             PlaySound.instance.playSound(filename: "selectImage")
-                            pin = CLLocationCoordinate2D( // データがなければ大阪駅の緯度経度を代入
-                                latitude:  imageData.AllAlbums[i].album_latitude ?? 34.7022887,
+                            pin = CLLocationCoordinate2D( // nil -> Osaka
+                                latitude:  imageData.AllAlbums[i].album_latitude  ?? 34.7022887,
                                 longitude: imageData.AllAlbums[i].album_longitude ?? 135.4953509)
                             pos = .region(MKCoordinateRegion(center: pin, latitudinalMeters: 600000, longitudinalMeters: 600000))
                         }
@@ -35,51 +37,54 @@ struct AlbumView: View {
                                 
                                 Image("sky4").resizable()
                                     .scaledToFit()
-                                    .frame(width: UIScreen.main.bounds.size.width*0.8, height: UIScreen.main.bounds.size.height*0.8)
+                                    .frame(width: 1400, height: 600)
                                     .clipShape(Rectangle())
                                 
-                                HStack{
-                                    Image(uiImage: imageData.AllUIAlbums[i]).resizable().scaledToFit()
-                                        .frame(maxWidth: UIScreen.main.bounds.size.width * 0.7,
-                                               maxHeight: UIScreen.main.bounds.size.height * 0.7,
-                                               alignment: .leading)
-                                    Spacer()
-                                }
-                                
-                                VStack{
+                                ZStack{
                                     HStack{
-                                        Button(
-                                            action: {
-                                                imageData.SelectedAlbums[i].toggle()
-                                                PlaySound.instance.playSound(filename: "top")
-                                            }, label: { Image(systemName: "arrow.backward") }
-                                        ).tint(.blue).font(.title).fontWeight(.bold).padding(10)
+                                        Image(uiImage: imageData.AllUIAlbums[i]).resizable().scaledToFit()
+                                            .frame(maxWidth: UIScreen.main.bounds.size.width * 0.7,
+                                                   maxHeight: UIScreen.main.bounds.size.height * 0.7,
+                                                   alignment: .leading)
                                         Spacer()
                                     }
-                                    Spacer()
-                                } // 拡大画像のシートから戻るための矢印ボタン
-                                
-                                VStack{ Spacer()
-                                    HStack{ Spacer()
-                                        Map(position: $pos){ Marker("", coordinate: pin).tint(.red) }
-                                            .frame(maxWidth: UIScreen.main.bounds.size.width * 0.2)
-                                            .clipShape(Circle())
-                                    }
-                                } // circle map
+                                    
+                                    VStack{
+                                        HStack{
+                                            Button(
+                                                action: {
+                                                    imageData.SelectedAlbums[i].toggle()
+                                                    PlaySound.instance.playSound(filename: "top")
+                                                }, label: { Image(systemName: "arrow.backward") }
+                                            ).tint(.blue).font(.title).fontWeight(.bold).padding(15)
+                                            Spacer()
+                                        }
+                                        Spacer()
+                                    } // back
+                                    
+                                    VStack{ Spacer()
+                                        HStack{ Spacer()
+                                            Map(position: $pos){ Marker("", coordinate: pin).tint(.red) }
+                                                .frame(maxWidth: UIScreen.main.bounds.size.width * 0.2)
+                                                .clipShape(Circle())
+                                        }
+                                    } // map
+                                }.frame(width: UIScreen.main.bounds.size.width*0.9, height: UIScreen.main.bounds.size.height*0.9)
                                 
                             }
                         }
                     }
                 }
-            }
+            }.frame(width: UIScreen.main.bounds.size.width*0.9, height: UIScreen.main.bounds.size.height*0.9)
             
             if imageData.AllAlbums == [] {
                 LoadingView()
             }
-            
         }
-        .navigationTitle("🍎 あるばむ")
         .customBackButton()
+        .onAppear{
+            imageData.SetAlbums()
+        }
     }
 }
 

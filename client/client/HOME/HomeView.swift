@@ -41,7 +41,7 @@ struct HomeView: View {
                     .navigationDestination(isPresented: $isAlbumView){AlbumView()}
                 }
                 
-                HStack (spacing : 80){
+                HStack(spacing : 80){
                     VStack(spacing:-10){
                         Image("photo")
                             .resizable().scaledToFit().frame(width: 150, height: 150).cornerRadius(30)
@@ -68,10 +68,10 @@ struct HomeView: View {
                 }
             }
         }
-        .customBackButton2() // logout button
-        .onAppear{
-            imageData.SetImages() // image tableのデータを取得、Imageデータのステート変数を初期化
-            imageData.SetAlbums() // album tableのデータを取得、Albumデータのステート変数を初期化
-        }
+        .customBackButton2()
+//        .onAppear{
+//            imageData.SetImages()
+//            imageData.SetAlbums()
+//        }
     }
 }

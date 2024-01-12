@@ -32,7 +32,7 @@ struct SelectImageView: View {
                                     }
                                 }
                                 .clipped().shadow(color: Color.black, radius: 5, x: 5, y: 5)
-                                .overlay(//クリックした赤枠:スマホサイズに合わせて変化
+                                .overlay(//クリックした赤枠
                                     GeometryReader { geometry in
                                         RoundedRectangle(cornerRadius: 7)
                                             .stroke(Color.pink, lineWidth: imageData.SelectedImages[i] ? 7 : 0)
@@ -74,18 +74,25 @@ struct SelectImageView: View {
         .toolbar {// 右上のボタン
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 HStack{
-                    Image("arphoto").resizable().frame(width: 150)
+                    Image("takepic").resizable().aspectRatio(contentMode: .fit).frame(width: 150)
+                        .background(Color.green, in: RoundedRectangle(cornerRadius: 5))
                 }
                 .onTapGesture {
                     PlaySound.instance.playSound(filename: "top")
                     isArSplash.toggle()
                 }
                 .navigationDestination(isPresented: $isArSplash){ArSplash()}
-                .background(Color(UIColor(red: 255/255, green: 243/255, blue: 210/255, alpha: 1)))
                 .font(.body.bold()).cornerRadius(5)
                 .opacity(isDisable ? 0.5 : 1.0)
                 .disabled(isDisable)//無選択では押せない
             }
+        }
+        .onAppear{
+            imageData.SetImages()
+        }
+        .onDisappear{
+            imageData.SelectedImages = Array(repeating: false, count: imageData.AllImages.count)
+            imageData.AllImages = []
         }
     }
 }

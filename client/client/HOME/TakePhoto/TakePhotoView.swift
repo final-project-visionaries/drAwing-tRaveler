@@ -4,6 +4,8 @@ import ARKit
 
 struct TakePhotoView : View {
     @EnvironmentObject var imageData : ImageData
+    @State private var isSaved = false
+    @State private var count = 2
     
     var body: some View {
         ZStack{
@@ -27,6 +29,14 @@ struct TakePhotoView : View {
                             }
                         }
                         PlaySound.instance.playSound(filename: "camera")
+                        isSaved.toggle()
+                        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {timer in
+                            self.count -= 1
+                            if self.count == 0 {
+                                timer.invalidate()
+                                self.isSaved.toggle()
+                            }
+                        }
                     } label: {
                         Image(systemName: "camera")
                             .frame(width:60, height:60).font(.title)
@@ -35,7 +45,17 @@ struct TakePhotoView : View {
                     Spacer()
                 }
             }
-        } // ZStack
+            
+            if isSaved == true {
+                ZStack{
+                    Rectangle()
+                        .ignoresSafeArea()
+                        .foregroundColor(.black).opacity(0.5)
+                        .frame(maxWidth: UIScreen.main.bounds.size.width, maxHeight: UIScreen.main.bounds.size.height)
+                    Text("しゃしんをほぞんしたよ！").foregroundStyle(.white).font(.title)
+                }
+            }
+        }
         .customBackButton()
     }
 }

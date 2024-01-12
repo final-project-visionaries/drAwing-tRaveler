@@ -2,7 +2,6 @@ import SwiftUI
 
 struct CustomBackButton: ViewModifier {
     @Environment(\.dismiss) var dismiss
-    
     func body(content: Content) -> some View {
         content
             .navigationBarBackButtonHidden(true)
@@ -12,27 +11,16 @@ struct CustomBackButton: ViewModifier {
                         action: {
                             PlaySound.instance.playSound(filename: "top")
                             dismiss()
-                        }, label: {
-                            Image(systemName: "arrow.backward")
-                        }
+                        }, label: {Image(systemName: "arrow.backward")}
                     )
-                    .tint(.blue)
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .tint(.blue).font(.title).fontWeight(.bold)
                 }
             }
     }
 }
 
-extension View {
-    func customBackButton() -> some View {
-        self.modifier(CustomBackButton())
-    }
-}
-
 struct CustomBackButton2: ViewModifier {
     @Environment(\.dismiss) var dismiss
-    
     func body(content: Content) -> some View {
         content
             .navigationBarBackButtonHidden(true)
@@ -42,19 +30,18 @@ struct CustomBackButton2: ViewModifier {
                         action: {
                             PlaySound.instance.playSound(filename: "top")
                             dismiss()
-                        }, label: {
-                            Image(systemName:"rectangle.portrait.and.arrow.forward")
-                        }
+                        }, label: {Image(systemName:"rectangle.portrait.and.arrow.forward")}
                     )
-                    .tint(.blue)
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .tint(.blue).font(.title).fontWeight(.bold)
                 }
             }
     }
 }
 
 extension View {
+    func customBackButton() -> some View {
+        self.modifier(CustomBackButton())
+    }
     func customBackButton2() -> some View {
         self.modifier(CustomBackButton2())
     }
