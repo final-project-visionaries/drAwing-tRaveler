@@ -5,6 +5,8 @@ struct TopView: View {
     @StateObject var imageData = ImageData()
     @State var isLoginView = false
     @State var isRegisterView = false
+//    @State private var isActive = false
+//    @State private var opacity = 0.1
     
     var body: some View {
         NavigationStack {
@@ -17,6 +19,7 @@ struct TopView: View {
                 VStack(spacing:50){
                     Image("appname_new").resizable().scaledToFit()
                         .frame(maxWidth: UIScreen.main.bounds.size.width)
+                        .padding(.top, 30)
                     HStack(spacing:90){
                         
                         VStack{
@@ -42,7 +45,6 @@ struct TopView: View {
                             isRegisterView.toggle()
                         }
                         .navigationDestination(isPresented: $isRegisterView){RegisterMainView()}
-                        
                     }
                 }
             }

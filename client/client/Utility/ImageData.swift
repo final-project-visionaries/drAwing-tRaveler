@@ -1,4 +1,5 @@
 import SwiftUI
+import CoreLocation
 
 @MainActor
 class ImageData: ObservableObject {
@@ -61,7 +62,7 @@ class ImageData: ObservableObject {
     
     // UIImage -> resize -> compress -> encode -> base64
     func resizeImageToBase64(image: UIImage) -> String {
-        let targetSize = CGSize(width: 2000, height: 2000)
+        let targetSize = CGSize(width: 500, height: 500) // 500,800,2000
         let size = image.size
         let widthRatio = targetSize.width / size.width
         let heightRatio = targetSize.height / size.height
@@ -78,3 +79,28 @@ class ImageData: ObservableObject {
       }
 }
 
+class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    @Published var userLocation: CLLocation?
+    private var locationManager = CLLocationManager()
+    override init() {
+        super.init()
+        setupLocationManager()
+    }
+    func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            userLocation = location
+            print("Latitude: \(location.coordinate.latitude), Longitude: \(location.coordinate.longitude)")
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Error getting location: \(error.localizedDescription)")
+    }
+}

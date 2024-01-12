@@ -38,9 +38,11 @@ struct DrawingView: View {
     @EnvironmentObject var imageData : ImageData
     @State private var canvasView = PKCanvasView()
     @State var selectedColor:Color = .black
+    @State private var isSaved = false
+    @State private var count = 2
     @Binding var isActive:Bool
     
-    let limitedColors: [Color] = [.red,.yellow, .orange,.green,.blue,.purple,.brown,.gray,.white,.black]
+    let limitedColors: [Color] = [.red,.yellow,.orange,.green,.blue,.purple,.brown,.gray,.white,.black]
     var body: some View {
         ZStack {
             DrawingView_(canvasView: $canvasView, selectedColor: $selectedColor)
@@ -49,18 +51,40 @@ struct DrawingView: View {
             VStack {
                 HStack(spacing: 20){
                     Spacer()
-                    LimitedColorPicker(colors: limitedColors, selectedColor: $selectedColor)
-                        .padding(.vertical, 10)
-                    //ColorPicker("Color", selection: $selectedColor).labelsHidden()
+                    LimitedColorPicker(colors: limitedColors, selectedColor: $selectedColor).padding(.vertical, 10)
                     Button(action: {
                         canvasView.drawing = PKDrawing()
-                    }) {Text("えをけす").foregroundColor(.red)}.padding(.horizontal, 10)
+                    }) {
+                        Image("deletepic").resizable().aspectRatio(contentMode: .fit).frame(width: 100)
+                            .background(Color.pink, in: RoundedRectangle(cornerRadius: 5))
+                    }.padding(.horizontal, 10)
                     Button(action: {
-                        PKCanvasViewToUIImage()
                         PlaySound.instance.playSound(filename: "camera")
-                    }) {Text("えをほぞん")}.padding(.trailing, 20)
+                        PKCanvasViewToUIImage()
+                        isSaved.toggle()
+                        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {timer in
+                            self.count -= 1
+                            if self.count == 0 {
+                                timer.invalidate()
+                                self.isSaved.toggle()
+                            }
+                        }
+                    }) {
+                        Image("savepic").resizable().aspectRatio(contentMode: .fit).frame(width: 120)
+                            .background(Color.cyan, in: RoundedRectangle(cornerRadius: 5))
+                    }.padding(.trailing, 20)
                 }.padding(10)
                 Spacer()
+            }
+            
+            if isSaved == true {
+                ZStack{
+                    Rectangle()
+                        .ignoresSafeArea()
+                        .foregroundColor(.black).opacity(0.5)
+                        .frame(maxWidth: UIScreen.main.bounds.size.width, maxHeight: UIScreen.main.bounds.size.height)
+                    Text("えをほぞんしたよ！").foregroundStyle(.white).font(.title)
+                }
             }
             
             VStack{
@@ -76,7 +100,7 @@ struct DrawingView: View {
                     Spacer()
                 }.padding(10)
                 Spacer()
-            }//拡大画像のシートから戻るための矢印ボタン
+            }
             
         }
         .onAppear {canvasView.drawing = PKDrawing()}

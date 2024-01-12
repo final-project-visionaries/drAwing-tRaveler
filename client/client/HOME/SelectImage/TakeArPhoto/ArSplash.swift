@@ -3,12 +3,13 @@ import RealityKit
 import ARKit
 
 struct ArSplash : View {
+    @StateObject var locationManager = LocationManager()
     @State private var isActive = false
     @State private var count = 5
     
     var body: some View {
         if isActive{
-            TakeArPhotoView()
+            TakeArPhotoView().environmentObject(locationManager)
         } else {
             ZStack{
                 ARViewContainer3()
@@ -23,8 +24,8 @@ struct ArSplash : View {
                         .foregroundColor(.black).opacity(0.5)
                         .frame(maxWidth: UIScreen.main.bounds.size.width, maxHeight: UIScreen.main.bounds.size.height)
                     VStack{
-                        Text("とりたいほうこうにむけよう").foregroundStyle(.white)
-                        Text("\(self.count) !").font(.largeTitle).foregroundStyle(.white)
+                        Text("とりたいほうこうにむけよう!").font(.title).foregroundStyle(.white)
+                        Text("\(self.count)").font(.largeTitle).foregroundStyle(.white)
                         Image(systemName: "camera").resizable().scaledToFit()
                             .frame(width:120, height:120).font(.title).foregroundStyle(.white)
                     }
@@ -41,7 +42,6 @@ struct ArSplash : View {
                 
             } // ZStack
             .customBackButton()
-            
         }
     }
 }
