@@ -165,4 +165,7 @@ var apiAlbumEndPoint = "[ご自身のサーバーのURL]/api/v1/albums"
   <img src="https://github.com/myu-myu-myu.png"  style="width:80px;border-radius: 50%;"/>
 </a>
 
-## 参考
+## クレジット
+- "Happy Hey" by Infraction
+- [https://bit.ly/3GrEbF4](https://bit.ly/3GrEbF4)
+- Music promoted by Inaudio: [http://bit.ly/3qxoX6U](http://bit.ly/3qxoX6U)
