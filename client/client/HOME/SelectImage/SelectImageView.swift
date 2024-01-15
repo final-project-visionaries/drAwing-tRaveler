@@ -1,13 +1,17 @@
 import SwiftUI
 
 struct SelectImageView: View {
+    @StateObject var locationManager = LocationManager()
     @EnvironmentObject var imageData : ImageData
     @State private var isDisable: Bool = true
     @State var isArSplash = false
     
     var body: some View {
         ZStack{
-            Image("sky").ignoresSafeArea()
+            Image("sky4").resizable()
+                .scaledToFit()
+                .frame(width: 1400, height: 600)
+                .clipShape(Rectangle())
             
             Rectangle()//スクロール背景:スマホサイズに合わせて変化
                 .fill(Color.black.opacity(0.1))
@@ -81,7 +85,7 @@ struct SelectImageView: View {
                     PlaySound.instance.playSound(filename: "top")
                     isArSplash.toggle()
                 }
-                .navigationDestination(isPresented: $isArSplash){ArSplash()}
+                .navigationDestination(isPresented: $isArSplash){ArSplash().environmentObject(locationManager)}
                 .font(.body.bold()).cornerRadius(5)
                 .opacity(isDisable ? 0.5 : 1.0)
                 .disabled(isDisable)//無選択では押せない

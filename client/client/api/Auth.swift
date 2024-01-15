@@ -8,8 +8,6 @@ var apiAuthEndPoint = "https://drawing-traveler-7a488b236b7c.herokuapp.com/api/v
 //render
 //var apiAuthEndPoint = "https://drawing-traveler-server.onrender.com/api/v1/auth"
 
-struct DecodableType: Decodable { let url: String }
-
 //postメソッド
 func apiAuthPostRequest(reqBody : [String: String]) async -> ResponseMessage {
     var message: ResponseMessage?

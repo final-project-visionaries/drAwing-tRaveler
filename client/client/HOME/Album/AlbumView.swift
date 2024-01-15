@@ -27,9 +27,10 @@ struct AlbumView: View {
                         .onTapGesture {
                             imageData.SelectedAlbums[i].toggle()
                             PlaySound.instance.playSound(filename: "selectImage")
-                            pin = CLLocationCoordinate2D( // nil -> Osaka
-                                latitude:  imageData.AllAlbums[i].album_latitude  ?? 34.7022887,
-                                longitude: imageData.AllAlbums[i].album_longitude ?? 135.4953509)
+                            pin = CLLocationCoordinate2D(
+//                                latitude: 43.068564 , longitude: 141.3507138) // Sapporo
+                                latitude:  imageData.AllAlbums[i].album_latitude  ?? 34.7022887 ,
+                                longitude: imageData.AllAlbums[i].album_longitude ?? 135.4953509) // nil -> Osaka
                             pos = .region(MKCoordinateRegion(center: pin, latitudinalMeters: 600000, longitudinalMeters: 600000))
                         }
                         .sheet(isPresented: $imageData.SelectedAlbums[i]){

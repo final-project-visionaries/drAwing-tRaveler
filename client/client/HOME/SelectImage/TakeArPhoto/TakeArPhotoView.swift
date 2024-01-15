@@ -3,6 +3,7 @@ import RealityKit
 import ARKit
 
 struct TakeArPhotoView : View {
+    @StateObject var imageSaver = ImageSaver()
     @EnvironmentObject var imageData : ImageData
     @EnvironmentObject var locationManager : LocationManager
     @State private var isPlacing = false
@@ -11,7 +12,8 @@ struct TakeArPhotoView : View {
     @State private var Confirmed2: UIImage? = nil
     @State private var Confirmed3: UIImage? = nil
     @State private var Confirmed4: UIImage? = nil
-    @State private var isSaved = false
+    @State private var isSaved  = false
+    @State private var isSaved2 = false
     @State private var count = 2
     
     var body: some View {
@@ -20,7 +22,7 @@ struct TakeArPhotoView : View {
                             confirmed3: self.$Confirmed3, confirmed4: self.$Confirmed4)
             .ignoresSafeArea()
             .onDisappear{
-                ARVariables.dismantleUIView(ARVariables.arView, coordinator: ())//ARセッション停止
+                ARVariables.dismantleUIView(ARVariables.arView, coordinator: ())
             }
 
             if self.isPlacing { // 配置モード
@@ -35,7 +37,7 @@ struct TakeArPhotoView : View {
                                 .background(.white.opacity(0.35)).cornerRadius(30).padding(5)
                         })
                     }
-                }
+                } // Cancel
                 VStack{
                     HStack{
                         Button(action: {
@@ -50,7 +52,7 @@ struct TakeArPhotoView : View {
                         Spacer()
                     }
                     Spacer()
-                }
+                } // Confirm1 left-up
                 VStack{ Spacer()
                     HStack{
                         Button(action: {
@@ -64,7 +66,7 @@ struct TakeArPhotoView : View {
                         })
                         Spacer()
                     }
-                }
+                } // Confirm2 left-down
                 VStack{
                     HStack{ Spacer()
                         Button(action: {
@@ -78,7 +80,7 @@ struct TakeArPhotoView : View {
                         })
                     }
                     Spacer()
-                }
+                } // Confirm3 right-up
                 VStack{ Spacer()
                     HStack{ Spacer()
                         Button(action: {
@@ -91,7 +93,7 @@ struct TakeArPhotoView : View {
                                 .background(.white.opacity(0.25)).cornerRadius(30).padding(5)
                         })
                     }
-                }
+                } // Confirm4 right-down
                 Image(uiImage:self.Selected ?? UIImage()).resizable().scaledToFit().frame(height:80).opacity(0.5) // center
             } else { // 選択モード
                 VStack{ Spacer()
@@ -111,39 +113,64 @@ struct TakeArPhotoView : View {
                         }
                     }
                     .padding(10).background(.black.opacity(0.5))
-                }
+                } // Scroll
                 HStack{ Spacer()
-                    Button {
-                        ARVariables.arView.snapshot(saveToHDR: false) { (image) in
-                            let compressedImage = UIImage(data: (image?.pngData())!)
-                            var sendData: [String:Any] = [:]
-                            sendData["album_name"] = "From AR_check"
-                            sendData["album_data"] = imageData.resizeImageToBase64(image: compressedImage ?? UIImage())
-                            if let location = locationManager.userLocation {
-                                sendData["album_latitude"]  = location.coordinate.latitude
-                                sendData["album_longitude"] = location.coordinate.longitude
-                            } else {
-                                sendData["album_latitude"]  =  35.6809591 // Default
-                                sendData["album_longitude"] = 139.7673068 // Default
+                    VStack{ Spacer()
+                        Button {
+                            ARVariables.arView.snapshot(saveToHDR: false) { (image) in
+                                let compressedImage = UIImage(data: (image?.pngData())!)
+                                var sendData: [String:Any] = [:]
+                                sendData["album_name"] = "From AR_check"
+                                sendData["album_data"] = imageData.resizeImageToBase64(image: compressedImage ?? UIImage())
+                                if let location = locationManager.userLocation {
+                                    sendData["album_latitude"]  = location.coordinate.latitude
+                                    sendData["album_longitude"] = location.coordinate.longitude
+                                } else { // Default - Tokyo
+                                    sendData["album_latitude"]  =  35.6809591
+                                    sendData["album_longitude"] = 139.7673068
+                                }
+                                Task {
+                                    let res = await apiAlbumPostRequest(reqBody: sendData)
+                                    print("AR POST res : \(res)")
+                                }
                             }
-                            Task {
-                                let res = await apiAlbumPostRequest(reqBody: sendData)
-                                print("AR POST res : \(res)")
+                            PlaySound.instance.playSound(filename: "camera")
+                            isSaved.toggle()
+                            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {timer in
+                                self.count -= 1
+                                if self.count == 0 {
+                                    timer.invalidate()
+                                    self.isSaved.toggle()
+                                    self.count = 2
+                                }
                             }
-                        }
-                        PlaySound.instance.playSound(filename: "camera")
-                        isSaved.toggle()
-                        Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {timer in
-                            self.count -= 1
-                            if self.count == 0 {
-                                timer.invalidate()
-                                self.isSaved.toggle()
+                        } label: {
+                            Image(systemName: "camera")
+                                .frame(width:60, height:60).font(.title)
+                                .background(.white.opacity(0.75)).cornerRadius(30).padding()
+                        } // Save to Album DB
+                        Spacer()
+                        Button {
+                            ARVariables.arView.snapshot(saveToHDR: false) { (image) in
+                                let compressedImage = UIImage(data: (image?.pngData())!)
+                                imageSaver.writeToPhotoAlbum(image: compressedImage ?? UIImage())
                             }
-                        }
-                    } label: {
-                        Image(systemName: "camera")
-                            .frame(width:60, height:60).font(.title)
-                            .background(.white.opacity(0.75)).cornerRadius(30).padding()
+                            PlaySound.instance.playSound(filename: "camera")
+                            isSaved2.toggle()
+                            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {timer in
+                                self.count -= 1
+                                if self.count == 0 {
+                                    timer.invalidate()
+                                    self.isSaved2.toggle()
+                                    self.count = 2
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "iphone.circle")
+                                .frame(width:60, height:60).font(.title)
+                                .background(.white.opacity(0.75)).cornerRadius(30).padding()
+                        } // Save to iPhone Album
+                        Spacer()
                     }
                 }
             }
@@ -157,6 +184,17 @@ struct TakeArPhotoView : View {
                     Text("しゃしんをほぞんしたよ！").foregroundStyle(.white).font(.title)
                 }
             }
+            
+            if isSaved2 == true {
+                ZStack{
+                    Rectangle()
+                        .ignoresSafeArea()
+                        .foregroundColor(.blue).opacity(0.5)
+                        .frame(maxWidth: UIScreen.main.bounds.size.width, maxHeight: UIScreen.main.bounds.size.height)
+                    Text("iPhoneにほぞんするよ！").foregroundStyle(.white).font(.title)
+                }
+            }
+            
         }
         .customBackButton()
         .onAppear {
@@ -184,7 +222,7 @@ struct ARViewContainer: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: ARView, context: Context) {
-        let modelEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.3, height: 0.3, depth: 0.1))
+        let modelEntity = ModelEntity(mesh: MeshResource.generateBox(width: 0.5, height: 0.3, depth: 0.1))
         // let modelEntity = ModelEntity(mesh:.generateSphere(radius: 0.3))
         modelEntity.generateCollisionShapes(recursive: true)
         

@@ -60,6 +60,7 @@
 		CEB9CDA82B3ADEF80066D3F3 /* Albums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Albums.swift; sourceTree = "<group>"; };
 		CEC7D8712B33308600C4B152 /* Useage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Useage.swift; sourceTree = "<group>"; };
 		CEC7D8732B3330A400C4B152 /* Images.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Images.swift; sourceTree = "<group>"; };
+		CEEDD8402B54D95600E237CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +105,7 @@
 		CE8D54F72B32DCE100806426 /* client */ = {
 			isa = PBXGroup;
 			children = (
+				CEEDD8402B54D95600E237CE /* Info.plist */,
 				CE848CE02B3967380007D8D1 /* Utility */,
 				CE8D55072B32E76C00806426 /* HOME */,
 				CE8D55062B32E75500806426 /* TOP */,
@@ -448,10 +450,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = 5X7NMS6ZZH;
+				DEVELOPMENT_TEAM = LBAQD48WFX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = client/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "おえかきかめらさん";
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使用します";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "アルバムに現在位置を記録します";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "写真をiPhoneのアルバムに保存します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -462,7 +468,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tomohirojin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.myu.HelloWorld2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -478,10 +484,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"client/Preview Content\"";
-				DEVELOPMENT_TEAM = 5X7NMS6ZZH;
+				DEVELOPMENT_TEAM = LBAQD48WFX;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = client/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "おえかきかめらさん";
 				INFOPLIST_KEY_NSCameraUsageDescription = "このアプリはカメラを使用します";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "アルバムに現在位置を記録します";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "写真をiPhoneのアルバムに保存します";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -492,7 +502,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.tomohirojin;
+				PRODUCT_BUNDLE_IDENTIFIER = com.myu.HelloWorld2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

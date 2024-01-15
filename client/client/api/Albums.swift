@@ -36,7 +36,6 @@ func apiAlbumGetRequest() async -> [ApiAlbum] {
     }
 }
 //postメソッド
-// [String:Any]にしても、緯度経度はDBに登録できない。。。涙
 func apiAlbumPostRequest(reqBody : [String: Any]) async -> [String: Any] {
     var decodedMessage : [String: Any] = [:]
     return await withCheckedContinuation { continuation in
