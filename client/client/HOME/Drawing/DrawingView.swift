@@ -67,6 +67,7 @@ struct DrawingView: View {
                             if self.count == 0 {
                                 timer.invalidate()
                                 self.isSaved.toggle()
+                                self.count = 2
                             }
                         }
                     }) {
@@ -75,7 +76,7 @@ struct DrawingView: View {
                     }.padding(.trailing, 20)
                 }.padding(10)
                 Spacer()
-            }
+            } // tools
             
             if isSaved == true {
                 ZStack{
@@ -100,7 +101,7 @@ struct DrawingView: View {
                     Spacer()
                 }.padding(10)
                 Spacer()
-            }
+            } // back
             
         }
         .onAppear {canvasView.drawing = PKDrawing()}

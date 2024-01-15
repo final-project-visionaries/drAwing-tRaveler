@@ -69,9 +69,5 @@ struct HomeView: View {
             }
         }
         .customBackButton2()
-//        .onAppear{
-//            imageData.SetImages()
-//            imageData.SetAlbums()
-//        }
     }
 }

@@ -1,5 +1,4 @@
 import SwiftUI
-import CoreLocation
 
 @MainActor
 class ImageData: ObservableObject {
@@ -15,13 +14,12 @@ class ImageData: ObservableObject {
     @Published var ArModels:[UIImage]    = [] // [1 UIImage, 3 UIImage, 4 UIImage]
     @Published var SelectedModels:[Bool] = [] // select 3 -> [F,T,F]
     
-    //base64 -> UIImage
     func convertBase64ToImage(_ base64String: String) -> UIImage? {
         guard let imageData = Data(base64Encoded: base64String) else { return nil }
         return UIImage(data: imageData)
-    }
+    } // base64 -> UIImage
     
-    func SetImages(){//画像データのGET（初期化）
+    func SetImages(){
         Task{
             self.AllImages = await apiImageGetRequest()
             self.SelectedImages = Array(repeating: false, count: self.AllImages.count)
@@ -32,9 +30,9 @@ class ImageData: ObservableObject {
                 self.AllUIImages.append(result)
             }
         }
-    }
+    } // 画像データのGET（初期化）
     
-    func SetAlbums(){//アルバムデータのGET（初期化）
+    func SetAlbums(){
         Task{
             self.AllAlbums = await apiAlbumGetRequest()
             self.SelectedAlbums = Array(repeating: false, count: self.AllAlbums.count)
@@ -45,9 +43,9 @@ class ImageData: ObservableObject {
                 self.AllUIAlbums.append(result)
             }
         }
-    }
+    } // アルバムデータのGET（初期化）
     
-    func SetArModels(){//選択したARモデルのGET（初期化）
+    func SetArModels(){
         ArModels = []
         SelectedModels = []
         for i in 0 ..< AllImages.count {
@@ -58,11 +56,10 @@ class ImageData: ObservableObject {
         }
         print("ArModels -> \(ArModels.count)")
         print("SelectedModels -> \(SelectedModels.count)")
-    }
+    } // 選択したARモデルのGET（初期化）
     
-    // UIImage -> resize -> compress -> encode -> base64
     func resizeImageToBase64(image: UIImage) -> String {
-        let targetSize = CGSize(width: 500, height: 500) // 500,800,2000
+        let targetSize = CGSize(width: 500, height: 500)
         let size = image.size
         let widthRatio = targetSize.width / size.width
         let heightRatio = targetSize.height / size.height
@@ -76,9 +73,10 @@ class ImageData: ObservableObject {
         let imageDataFromBack = newImage?.jpegData(compressionQuality: 1.0)
         let base64String = imageDataFromBack?.base64EncodedString()
         return base64String ?? "resize error"
-      }
+      } // UIImage -> resize -> compress -> encode -> base64
 }
 
+import CoreLocation
 class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var userLocation: CLLocation?
     private var locationManager = CLLocationManager()
@@ -89,9 +87,11 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     func setupLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
+        DispatchQueue.global().async {  // ←【追加】
+            if CLLocationManager.locationServicesEnabled() {
+                self.locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+                self.locationManager.startUpdatingLocation()
+            }
         }
     }
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
@@ -102,5 +102,14 @@ class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error getting location: \(error.localizedDescription)")
+    }
+}
+
+class ImageSaver: NSObject, ObservableObject {
+    func writeToPhotoAlbum(image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
+    }
+    @objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        print("Saved to iPhone Album! - Error : \(String(describing: error))")
     }
 }

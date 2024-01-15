@@ -3,7 +3,7 @@ import RealityKit
 import ARKit
 
 struct ArSplash : View {
-    @StateObject var locationManager = LocationManager()
+    @EnvironmentObject var locationManager: LocationManager
     @State private var isActive = false
     @State private var count = 5
     
