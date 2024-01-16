@@ -8,8 +8,8 @@ router.get('/', async (req, res) => {
   try {
     const getAllData = await knex(imageTable)
       .select('id', 'image_name', 'image_data', 'updated_at')
-      .orderBy('updated_at', 'desc')
-      .limit(10);
+      .orderBy('updated_at', 'desc');
+    // .limit(10);
     res.status(200).send(getAllData);
   } catch (error) {
     res.status(500).send({ error: `${error}` });
