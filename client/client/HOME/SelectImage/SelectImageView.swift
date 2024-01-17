@@ -6,6 +6,9 @@ struct SelectImageView: View {
     @State private var isDisable: Bool = true
     @State var isArSplash = false
     
+    @State private var showingAlert = false // Delete
+    @State private var item: Int = 0 // Delete
+    
     var body: some View {
         ZStack{
             Image("sky4").resizable()
@@ -19,11 +22,12 @@ struct SelectImageView: View {
                        height: UIScreen.main.bounds.size.height * 3 / 5)
             
             ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing:10){
+                LazyHStack(spacing:10){
                     ForEach(0 ..< imageData.AllImages.count, id: \.self){ i in
-                        HStack{
+                        VStack{
                             Image(uiImage: imageData.AllUIImages[i]).resizable().scaledToFit()
-                                .frame(height: UIScreen.main.bounds.size.height * 2 / 5)
+                            //.frame(height: UIScreen.main.bounds.size.height * 2 / 5)
+                                .frame(width: 200)
                                 .onTapGesture {
                                     PlaySound.instance.playSound(filename: "selectImage")
                                     imageData.SelectedImages[i].toggle()
@@ -36,19 +40,47 @@ struct SelectImageView: View {
                                     }
                                 }
                                 .clipped().shadow(color: Color.black, radius: 5, x: 5, y: 5)
-                                .overlay(//クリックした赤枠
+                                .overlay(
                                     GeometryReader { geometry in
                                         RoundedRectangle(cornerRadius: 7)
                                             .stroke(Color.pink, lineWidth: imageData.SelectedImages[i] ? 7 : 0)
                                             .frame(width: geometry.size.width,
                                                    height: geometry.size.height)
                                     }
-                                )
+                                )//クリックした赤枠
                                 .scaleEffect(imageData.SelectedImages[i] ? 1.2 : 1.0)
+                            Spacer()
+                            Image(systemName: "x.circle.fill")
+                                .resizable().scaledToFit().frame(height: 30)
+                                .foregroundColor(.black)
+                            //.offset(x:0, y:-20)
+                                .onTapGesture {
+                                    showingAlert.toggle()
+                                    item = i
+                                    print("tap : \(i)")
+                                }
+                                .alert(isPresented: $showingAlert){
+                                    Alert(
+                                        title: Text("\(imageData.AllImages[item].image_name)"),
+                                        message: Text("本当に削除しますか?"),
+                                        primaryButton: .destructive(Text("削除する")){
+                                            print("delete : \(item)")
+                                            let temp_id = imageData.AllImages[item].id
+                                            Task{
+                                                let result = await apiImageDeleteRequest(imageID:temp_id)
+                                                print("API : \(result)")
+                                                imageData.SetImages()
+                                            }
+                                        },
+                                        secondaryButton: .cancel(Text("キャンセル"))
+                                    )
+                                } // Delete
                         }
-                    }.padding(.horizontal, 40)
-                }
-                .frame(width: CGFloat(imageData.AllImages.count) * UIScreen.main.bounds.size.width * 0.65,
+                        
+                    }
+                }//.padding(.horizontal, 40)
+                //.frame(width: CGFloat(imageData.AllImages.count) * UIScreen.main.bounds.size.width * 0.65,
+                .frame(width: CGFloat(imageData.AllImages.count) * 230,
                        height: UIScreen.main.bounds.size.height * 3 / 5)
             }
             
@@ -75,7 +107,7 @@ struct SelectImageView: View {
         }//ZStack
         .customBackButton()
         .ignoresSafeArea()
-        .toolbar {// 右上のボタン
+        .toolbar {
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 HStack{
                     Image("takepic").resizable().aspectRatio(contentMode: .fit).frame(width: 150)
@@ -90,7 +122,7 @@ struct SelectImageView: View {
                 .opacity(isDisable ? 0.5 : 1.0)
                 .disabled(isDisable)//無選択では押せない
             }
-        }
+        }// 右上のボタン
         .onAppear{
             imageData.SetImages()
         }

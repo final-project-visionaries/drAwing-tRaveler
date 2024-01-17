@@ -7,12 +7,12 @@ class ImageData: ObservableObject {
     @Published var AllUIAlbums:[UIImage] = []
     @Published var SelectedAlbums:[Bool] = []
     // Image
-    @Published var AllImages:[ApiImage]  = [] // [[], [], []]
-    @Published var AllUIImages:[UIImage] = [] // base64 -> UIImage
-    @Published var SelectedImages:[Bool] = [] // [0,1,2,3,4,5] -> select [1,3,4] -> [F,T,F,T,T,F]
+    @Published var AllImages:[ApiImage]  = []
+    @Published var AllUIImages:[UIImage] = []
+    @Published var SelectedImages:[Bool] = []
     // AR
-    @Published var ArModels:[UIImage]    = [] // [1 UIImage, 3 UIImage, 4 UIImage]
-    @Published var SelectedModels:[Bool] = [] // select 3 -> [F,T,F]
+    @Published var ArModels:[UIImage]    = []
+    @Published var SelectedModels:[Bool] = []
     
     func convertBase64ToImage(_ base64String: String) -> UIImage? {
         guard let imageData = Data(base64Encoded: base64String) else { return nil }
